@@ -1,0 +1,28 @@
+<nav data-bank-menu></nav>
+<div id="content">
+	<h1 data-bank-colorized-header>Twoje konto</h1>
+	<table class="transfer">	
+		<tbody style="background:none;border:none">
+			<tr>
+				<td style="width:250px">Numer rachunku</td>
+				<td><strong>{{user.number}}</strong></td>
+			</tr>
+			<tr>				
+				<td>Saldo</td>
+				<td><strong>{{user.balance | number}} zł</strong></td>
+			</tr>
+			<tr>				
+				<td style="padding-top:15px">Data założenie konta</td>
+				<td style="padding-top:15px"><strong>{{user.created | date:'dd-MM-yyyy HH:mm'}}</strong></td>
+			</tr>
+			<tr>
+				<td style="padding-top:15px">Dane właściciela konta</td>
+				<td style="padding-top:15px">
+					<p><strong>{{user.name}}</strong></p>
+					<p ng-if="user.address != ''"><strong>{{user.address}}</strong></p>
+					<p ng-if="user.subAddress != ''"><strong>{{user.subAddress}}</strong></p>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

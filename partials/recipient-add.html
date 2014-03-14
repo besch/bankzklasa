@@ -1,0 +1,35 @@
+<nav data-bank-menu></nav>
+<div id="content" ng-controller="account">
+	<h1 data-bank-colorized-header>Dodaj odbiorcę</h1>
+	<form action="#" method="post" name="form" invalidate>
+		<table class="transfer">
+			<tbody>
+				<tr>
+					<td><label for="iNumber">Rachunek odbiorcy</label></td>
+					<td>
+<!--						<input type="text" ng-model="recipient.number" name="number" id="iNumber" class="text"
+							ng-pattern="/^\d{2} \d{4} \d{4} \d{4} \d{4} \d{4} \d{4}$/" bank-mask ensureUnique required="required" maxlength="32" />-->
+						<input type="text" ng-model="recipient.number" name="number" id="iNumber" class="text"
+							bank-mask data-unique-property="user.recipient.number" required="required" maxlength="32" />
+						<p class="error" ng-show="submitted && form.number.$error.required">Pole jest obowiazkowe.</p>
+						<p class="error" ng-show="submitted && form.number.$error.unique">Taki odbiorca już istnieje.</p>
+						<p class="error" ng-show="submitted && form.number.$error.pattern">Niepoprawny numer konta.</p>
+					</td>
+				</tr>
+				<tr>
+					<td><label for="iName">Nazwa odbiorcy</label></td>
+					<td>
+						<p><input type="text" ng-model="recipient.name" name="name" id="iName" class="text" required="required" /></p>
+						<p class="error" ng-show="submitted && form.name.$error.required">Pole jest obowiazkowe</p>
+						<p><input type="text" ng-model="recipient.address" class="text" /></p>
+						<p><input type="text" ng-model="recipient.subAddress" class="text" /></p>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="form-actions">
+			<input data-ng-click="submitted = true;
+				form.$valid ? createRecipient() : null" type="button" class="submit" value="Dodaj odbiorcę" />
+		</div>
+	</form>
+</div>

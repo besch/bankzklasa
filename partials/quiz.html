@@ -1,0 +1,52 @@
+<div ng-controller="quiz">
+	<div id="menu">
+		<p class="quiz">
+			Twoje saldo<br/><em class="c1">{{user.balance}} zł</em><br/><br/>
+			Każda poprawna odpowiedź to<br/><em class="c1">100 zł</em><br/>więcej na Twoim koncie!
+		</p>
+	</div>
+	<div id="content">
+		<h1 data-bank-colorized-header>Quiz</h1>
+		<div id="quiz" data-bank-quiz></div>
+	</div>
+</div>
+
+<script>
+$(document).ready(function() {
+	$('#quiz').quizilla({
+		questions: quizillaDb,
+		checkDelay: 700,
+		checkLabel: 'Sprawdź',
+
+		onQuizCheck: function() {
+			$('html, body').animate({
+				scrollTop: $("#wrapper").offset().top
+			}, 40);
+			$('#quiz').jrumble({x: 2, y: 2, rotation: 2});
+			$('#quiz').trigger('startRumble');
+		},
+
+		onQuizDone: function(correct, count) {
+			$('#quiz').trigger('stopRumble');
+			var $result = $('<div id="quizilla-result"><h3>Wyniki quizu!</h3></div>');
+			if (correct > 0) {
+				if (correct === count) {
+					$result.append('<p><strong>Gratulacje!</strong> Odpowiedziałeś poprawnie wszystkie pytania :-)</p>');
+				}
+				else if (correct > 0) {
+					$result.append('<p>Odpowiedziałeś poprawnie na <strong>' + correct + '</strong> ' + (correct == 1 ? 'pytanie' : 'pytania') + ' z <strong>' + count + '</strong>.</p>');
+				}
+				$result.append('<p>Twoje konto zostało zasilone kwotą <strong>' + correct * 100 + ' zł</strong>!</p>');
+			}
+			else {
+				$result.append('<p>Nie rozwiązałeś poprawnie żadnego pytania :-(<br/>Niestety Twoje konto nie zostało zasilone pieniędzmi.</p>');
+			}
+			$('#quiz').prepend($result);
+
+			if (correct > 0) {
+				$('#content').scope().save(correct * 100);
+			}
+		}
+	});
+});
+</script>

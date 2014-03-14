@@ -1,0 +1,78 @@
+<nav data-bank-menu></nav>
+<div id="content" ng-controller="account">
+	<h1 data-bank-colorized-header>Wykonaj przelew</h1>
+	<form action="#" method="post" name="form" invalidate>
+		<table class="transfer">	
+			<thead>
+				<tr>
+					<td style="width:250px">Z rachunku</td>
+					<td>{{user.number}}</td>
+				</tr>
+				<tr>				
+					<td>Dostępne środki</td>
+					<td><em class="c1">{{user.balance| number}} zł</em></td>
+				</tr>
+				<tr>
+					<td style="padding-top:15px">Nadawca</td>
+					<td style="padding-top:15px">
+						<p>{{user.name}}</p>
+						<p ng-if="user.address != ''">{{user.address}}</p>
+						<p ng-if="user.subAddress != ''">{{user.subAddress}}</p>
+					</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td style="padding:20px 5px 5px 5px"><h3>Odbiorca</h3></td>
+					<td style="padding:20px 5px 5px 5px">
+						<p onclick="$(this).hide();
+										$('#setrecipient').show()" style="cursor:pointer;text-decoration:underline" class="c1">wybierz zdefiniowanego</p>
+						<p id="setrecipient" style="display:none">
+							<select ng-model="recipient" ng-options="r.name for r in user.recipient" ng-change="setRecipient()">
+								<option value="">-- wybierz --</option>
+							</select>					
+						</p>			
+					</td>
+				</tr>
+				<tr>
+					<td><label for="iNumber">Rachunek odbiorcy</label></td>
+					<td>
+						<input type="text" ng-model="transfer.number" name="number" id="iNumber" class="text" ng-pattern="/^\d{2} \d{4} \d{4} \d{4} \d{4} \d{4} \d{4}$/" bank-mask required="required"/>
+						<p class="error" ng-show="submitted && form.number.$error.required">Pole jest obowiazkowe</p>
+						<p class="error" ng-show="submitted && form.number.$error.pattern">Niepoprawny numer konta</p>
+					</td>
+				</tr>
+				<tr>
+					<td><label for="iName">Nazwa odbiorcy</label></td>
+					<td>
+						<p><input type="text" ng-model="transfer.name" name="name" id="iName" class="text" required="required" /></p>
+						<p class="error" ng-show="submitted && form.name.$error.required">Pole jest obowiazkowe</p>
+						<p><input type="text" ng-model="transfer.address" class="text" /></p>
+						<p><input type="text" ng-model="transfer.subAddress" class="text" /></p>
+					</td>
+				</tr>
+				<tr>
+					<td style="vertical-align:top"><label for="iTitle">Tytuł przelewu</label></td>
+					<td>
+						<textarea ng-model="transfer.title" name="title" id="iTitle" required="required"></textarea>
+						<p class="error" ng-show="submitted && form.title.$error.required">Pole jest obowiazkowe</p>	
+					</td>
+				</tr>
+				<tr>
+					<td><label for="iAmount">Kwota</label></td>
+					<td>
+						<input type="text" ng-model="transfer.amount" name="amount" id="iAmount" class="text" amount required="required" />
+						<p class="error" ng-show="submitted && form.amount.$error.min">Minimalna kwota przelewu to 1zl</p>
+						<p class="error" ng-show="submitted && form.amount.$error.max">Maksymalna kwota przelewu przekracza Twoje saldo</p>
+						<p class="error" ng-show="submitted && form.amount.$error.float">Podaj poprawna kwote</p>
+						<p class="error" ng-show="submitted && form.amount.$error.required">Pole jest obowiazkowe</p>	
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="form-actions">
+			<input ng-click="submitted = true;
+						form.$valid ? saveTransfer() : null" type="button" class="submit" value="Wyślij przelew" />
+		</div>
+	</form>
+</div>

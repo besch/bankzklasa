@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html ng-app="app">
+	<head>
+		<meta charset="utf-8">
+    <title>Bank z klasą - Cała wiedza o bankowości</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="shortcut icon" href="favicon.ico">
+    <style>
+			body {
+				font: 14px Arial,Tahoma,Sans-Serif;
+				color:#333;
+				background-color: #fff;
+				background-image: url('img/bar.png');
+				background-repeat: repeat-x;
+			}
+			a {
+				text-decoration: none;
+				cursor: pointer;
+			}
+			.container {
+				width: 380px;
+				height: 200px;
+				margin: 6% auto 0 auto;
+				padding-top: 165px;
+				background: url('img/logo2.png') no-repeat center 0;
+			}
+			.container .body {
+				padding: 10px;
+				border-top:1px solid #F0F0F0;
+				background-color:#f8f8f8
+			}
+			.container .avatar {
+				width: 50px;
+				height: 50px;
+				border: 2px solid #27747E;
+				background: url('img/avatar.png') no-repeat 0 0;
+				background-color: #ffffff;
+				background-size: 50px 50px;
+				border-radius:150px;-webkit-border-radius:150px;-moz-border-radius:150px
+			}
+			form label {
+				width: 75px;
+				display: inline-block;
+				padding-right: 10px;
+				text-align: right;
+				font-weight: bold;
+				color: #4c4b4b;
+			}
+			form .textfield {
+				padding: 3px;
+				margin: 0;
+				border: 1px solid #E0E0E0;
+				background: #ffffff;
+			}
+			form .submit {
+				margin-top: -5px;
+	  			padding: 4px 20px 4px;
+	  			font-size: 13px;
+	  			text-decoration: none;
+	  			color: #fff;
+	  			border: none;
+				background-color: #27747E;
+				cursor: pointer;
+				margin-left: 50px;
+			}
+			form .error {
+				margin-left: 89px;
+				display: block;
+				color: #DB4333;
+				width: 340px;
+			}
+			form em {
+				display: none;
+			}
+			.container .history {
+				margin-top: 1px;
+				padding: 3px 10px 10px 10px; 
+				background-color: #27747E;
+				color: #ffffff;
+				overflow: hidden;
+			}
+			.container .history input {
+				float: right;
+				margin: -1px 0 0 0;
+				padding: 2px;
+				border: none;
+				background: #ffffff;
+				font-size: 13px;
+			}
+			.container .history ul {
+				padding: 0 0 0 3px;
+				list-style-type: none;
+			}
+			.container .history ul li {
+				border: 1px solid #27747E;
+				margin-bottom: 9px;
+			}
+			.container .history ul li a {
+				display: inline-block;
+				padding: 3px 0 0 10px;
+				color: #ffffff;
+			}
+			.container .history .avatar {
+				width: 25px;
+				height: 25px;
+				margin: -2px 0 0 0;
+				float: left;
+				clear: left;
+				background-color: #ffffff;
+				background-size: 25px 25px;
+				border-radius:150px;-webkit-border-radius:150px;-moz-border-radius:150px
+			}
+			.password-block {
+				display: none;
+				float: left;
+				clear: both;
+				margin: 3px 0;
+				margin-left: 35px;
+			}
+
+			.user-password {
+				float: left !important;
+				margin-right: 10px !important;
+				border: 1px solid grey;
+				border-radius: 3px;
+			}
+
+			.user-password-submit {
+				border: 1px solid grey;
+				border-radius: 3px;
+				padding: 3px 5px;
+			}
+
+			.selected {
+				display: block !important;
+			}
+
+			.login-name {
+				height: 25px;
+				margin-top: 5px;
+				float: left;
+				cursor: pointer;
+				margin-left: 5px;
+			}
+			.login-name:hover {
+				text-decoration: underline;
+			}
+
+			.fulldiv-selected {
+				border: 1px solid grey !important;
+				border-radius: 3px;
+				padding: 10px;
+				overflow: hidden;
+				background: #fff;
+				width: 93%;
+			}
+			.fulldiv-selected .login-name,  {
+				color: #27747E;
+			}
+			.fulldiv-selected .password-block {
+				/*border: 1px solid #27747E;*/
+				/*background: #27747E;*/
+			}
+			.fulldiv-selected .user-password-submit {
+				background: #27747E !important;
+				color: #fff;
+				padding: 3px 5px !important;
+				cursor: pointer;
+			}
+			.fulldiv-selected .login-name {
+				color: #27747E;
+				margin-left: 5px;
+			}
+
+			.fulldiv-selected .user-password {
+				border: 1px solid #27747E !important;
+			}
+
+			.fulldiv-selected::-webkit-input-placeholder { /* WebKit browsers */
+			    color:    #fff;
+			}
+			.fulldiv-selected:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+			    color:    #fff;
+			}
+			.fulldiv-selected::-moz-placeholder { /* Mozilla Firefox 19+ */
+			    color:    #fff;
+			}
+			.fulldiv-selected:-ms-input-placeholder { /* Internet Explorer 10+ */
+			    color:    #fff;
+			}
+			.wrong-pass {
+				color: red;
+				float: left;
+				clear: both;
+			}
+			.img_small {
+				border: 2px solid #fff;
+				width: 50px;
+				height: 50px;
+				border-radius: 150px;
+				cursor: pointer;
+			}
+			.selectedImg {
+				border: 2px solid #27747E;
+			}
+
+			.middle {
+				text-align: center;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container" ng-controller="index">
+			<div class="body">
+				<form method="post" name="form" ng-submit="submitted=true;form.$valid ? create('app.html#/account') : null"  invalidate>
+					<p>
+						<label for="name">login:</label>
+						<input class="textfield" id="name" name="name" type="text" required="required" maxlength="25" data-ng-model="user.name" data-unique-property="users.name" data-login />
+						<span class="error" ng-show="submitted && form.name.$error.min">Login jest za krótki.</span>
+						<span class="error" ng-show="submitted && form.name.$error.max">Login jest za długi (do 30 znaków).</span>
+						<span class="error" ng-show="submitted && form.name.$error.unique">Podany login jest zajęty.</span>
+					</p>
+
+					<p>
+						<label for="name">hasło:</label>
+						<input class="textfield" id="password" name="password" type="password" required="required" maxlength="25" data-ng-model="user.password" data-password />
+						<span class="error" ng-show="submitted && form.password.$error.pass_min">Hasło jest za krótkie.</span>
+						<span class="error" ng-show="submitted && form.password.$error.one_capital_letter">Hasło powiino zawierać conajmniej jedną dużą literę.</span>
+						<span class="error" ng-show="submitted && form.password.$error.one_digit">Hasło powiino zawierać conajmniej jedną cyfrę</span>
+					</p>
+					
+					<p>
+						<label for="avatar">avatar:</label>
+						<input type="file" name="avatar" id="avatar" ng-file-select="onFileSelect($files)" accept="image/png, image/gif, image/jpeg" />
+						<span class="error" style="display:none">Plik nie jest obrazem</span>
+						<span class="error" style="display:none">Dozwolona wielkość obrazka do 2MB</span>
+					</p>
+					<p>
+						<div class="middle">
+							<p>lub wybierz jeden z dostępnych obrazków</p>
+							<span ng-repeat="avatar in avatars" ng-click="setAvatar($index)" ng-click="setAvatarClass($index)">
+								<img class="img_small" ng-src="{{avatar.src}}" ng-class="setAvatarClass($index)" ng-model="changeAvatar" />
+							</span>
+							<!-- <img class="avatar" ng-src="{{user.avatar}}" /> -->
+						</div>
+					</p>
+					<p>
+						<label></label>
+						<input type="submit" class="submit" value="Zaloguj" />
+					</p>
+				</form>
+			</div>
+			<div class="history">
+				<h3>Lista kont <input type="text" ng-model="searchList.name" placeholder="szukaj" /></h3>
+				<ul>
+					<li ng-repeat="user in users track by $index | filter:searchList | orderBy: 'name'" ng-class="'fulldiv-' + getClass($index)">
+						<img ng-if="user.avatar.length" class="avatar" ng-src="{{user.avatar}}" />
+						<img ng-if="!user.avatar.length" class="avatar" ng-src="img/avatar.png" />
+						<div ng-click="toggleSelect($index)" ng-click"getClass($index)" class="login-name">{{user.name}}</div>
+						
+						<div class="password-block" ng-class="getClass($index)" >
+							<input name="userPassword" placeholder="Wprowadź hasło" name="userPassword" type="password" class="user-password" ng-model="loginPassword" />
+							<input type="button" value="Zaloguj" class="user-password-submit" ng-click="login(user._id, loginPassword, 'app.html#/account/zasady_bezpieczenstwa')"/>
+							<span class="wrong-pass" ng-show="wrongPass">Nieprawidłowe hasło.</span>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<script src="js/jquery-1.10.2.min.js"></script>
+		<script src="js/pouchdb-nightly.min.js"></script>
+		<script src="js/angular.min.js"></script>
+		<script src="js/angular-route.min.js"></script>
+		<script src="js/module/app.js"></script>
+		<script src="js/controller/index.js"></script>
+  </body>
+</html>

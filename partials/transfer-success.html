@@ -1,0 +1,36 @@
+<nav data-bank-menu></nav>
+<div id="content" ng-controller="account">
+	<h1 data-bank-colorized-header>Przelew wykonany</h1>
+	<table class="transfer">	
+		<tbody>
+			<tr>
+				<td style="width:200px"><h3>Podsumowanie</h3></td>
+				<td></td>
+			</tr>
+			<tr ng-show="transferSummary.number.length > 0">
+				<td><label for="iNumber">Rachunek odbiorcy</label></td>
+				<td>{{transferSummary.number}}</td>
+			</tr>
+			<tr>
+				<td><label for="iName">Nazwa odbiorcy</label></td>
+				<td>
+					<p>{{transferSummary.name}}</p>
+					<p ng-if="transferSummary.address != ''">{{transferSummary.address}}</p>
+					<p ng-if="transferSummary.subAddress != ''">{{transferSummary.subAddress}}</p>
+				</td>
+			</tr>
+			<tr>
+				<td style="vertical-align:top"><label for="iTitle">Tytuł przelewu</label></td>
+				<td>{{transferSummary.title}}</td>
+			</tr>
+			<tr>
+				<td><label for="iAmount">Kwota</label></td>
+				<td class="c1">{{transferSummary.amount| number}} zł</td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="form-actions">
+		<a href="app.html#/account" ng-click="transferSummary = null"><input type="button" class="submit" value="Zamknij" /></a>	
+		<input type="button" class="submit" value="Zapisz odbiorcę" ng-click="saveRecipient()" ng-show="transferSummary.number.length > 0 && !transferSummary.isRecipient" />
+	</div>
+</div>

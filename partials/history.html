@@ -1,0 +1,31 @@
+<nav data-bank-menu></nav>
+<div id="content">
+	<h1 data-bank-colorized-header>Historia</h1>
+	<table class="list">	
+		<thead>
+			<tr>
+				<td>Data</td>
+				<td style="width:50%">Operacja</td>
+				<td>Kwota</td>
+				<td>Saldo po operacji</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="transfer in user.transfers| reverse">
+				<td>{{transfer.date| date:'dd-MM-yyyy HH:mm'}}</td>
+				<td>
+					<p>{{transfer.title}}</p>
+					<p ng-show="transfer.subTitle.length > 0">{{transfer.subTitle}}</p><br/>
+					<p ng-show="transfer.amount > 0">Nadawca:</p>
+					<p ng-show="transfer.amount < 0">Odbiorca:</p>
+					<p ng-show="transfer.number > 0">{{transfer.number| number }}</p>
+					<p>{{transfer.name}}</p>
+					<p ng-show="transfer.address.length > 0">{{transfer.address}}</p>
+					<p ng-show="transfer.subAddress.length > 0">{{transfer.subAddress}}</p>
+				</td>
+				<td><em ng-class="transfer.amount > 0 ? 'c3' : 'c1'">{{transfer.amount| number}} zł</em></td>
+				<td>{{transfer.balance| number}} zł</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

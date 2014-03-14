@@ -1,0 +1,36 @@
+<nav data-bank-menu></nav>
+<div id="content" ng-controller="account">
+	<div ng-show="recipientCreateSuccess" class="alert alert-success">
+		Odbiorca został dodany.
+	</div>
+	<div ng-show="success" class="alert alert-success">
+		Odbiorca został usunięty.
+	</div>
+	<h1 data-bank-colorized-header>Odbiorcy</h1>
+	<table class="list">	
+		<thead>
+			<tr>
+				<td>Dane osobowe</td>
+				<td style="width:400px">Numer rachunku</td>
+				<td></td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr data-ng-repeat="recipient in user.recipient track by recipient.number | orderBy: 'name'">
+				<td>
+					<p>{{recipient.name}}</p>
+					<p ng-show="recipient.address.length > 0">{{recipient.address}}</p>
+					<p ng-show="recipient.subAddress.length > 0">{{recipient.subAddress}}</p>
+				</td>
+				<td>{{recipient.number}}</td>
+				<td><a class="i-delete" ng-click="deleteRecipient(recipient.number)" title="Usuń odbiorcę"></a></td>
+			</tr>
+		</tbody>
+
+	</table>
+		<div class="form-actions">
+			<a class="button" href="#/account/recipient-add">Dodaj odbiorcę</a>
+		</div>
+</div>
+
+<script src="js/controller/account.js"></script>

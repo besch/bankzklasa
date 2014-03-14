@@ -1,0 +1,177 @@
+/* <editor-fold desc="HTML5 BOILERPLATE" defaultstate="collapsed"> */
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{border:0;font-size:100%;font:inherit;vertical-align:baseline;margin:0;padding:0}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:none}table{border-collapse:collapse;border-spacing:0}a{text-decoration:none}
+/* </editor-fold> */
+
+body {
+	font: 14px Arial,Tahoma,Sans-Serif;
+	color: #000;
+	background-color: #fff;
+	background-image: url('../img/bar.png');
+	background-repeat: repeat-x;
+}
+
+a {color: #000}
+strong{font-weight:bold}
+
+
+input.text, textarea, select{padding:5px 3px;margin:0;border:1px solid #E0E0E0;background: #ffffff;font: 14px Arial,Tahoma,Sans-Serif}
+.button, input[type="button"] {padding:5px 10px;font-size:1.2em;border:none;cursor:pointer;background-color: #ec0041;color: #fff;-webkit-border-radius: 2px;-moz-border-radius: 2px;border-radius: 2px}
+	select {padding:4px 3px}
+.form-actions{margin-top:15px;padding: 5px 10px;background-color:#F0F0F0;border-top:1px solid #E4E4E4}
+.error{color:#ec0041}
+
+.c1{color:#ec0041}
+.c2{color:#f57e00}
+.c3{color:#00644b}
+.c4{color:#690082}
+.c5{color:#009398}
+
+.pull-right{float:right}
+.pull-left{float:left}
+.clear{clear:both}
+
+.alert {padding: 15px;margin-bottom: 20px;border: 1px solid transparent;border-radius: 4px}
+.alert-success {background-color:#00975A; border: 1px solid; border-color: #00BD70 #007043 #007043 #00BD70; border-radius: 4px;}
+.alert-info {color:#31708f;background-color:#d9edf7;border-color: #bce8f1}
+.alert-danger {color:#a94442;background-color:#f2dede;border-color:#ebccd1}
+
+.i-delete {width:16px;height:16px;display:block;background: url('../img/delete.png') no-repeat 0 0;cursor:pointer}
+
+/* COMMON */
+/*.bankColorizedHeader > em:nth-child(6n-5) {color: #ED1651}*/
+.bankColorizedHeader > em:nth-child(6n-5) {color: #ED1686}
+.bankColorizedHeader > em:nth-child(6n-4) {color: #F8931F}
+.bankColorizedHeader > em:nth-child(6n-3) {color: #006d50}
+.bankColorizedHeader > em:nth-child(6n-2) {color: #812991}
+.bankColorizedHeader > em:nth-child(6n-1) {color: #ed1b24}
+.bankColorizedHeader > em:nth-child(6n)   {color: #009599}
+
+h1.bankColorizedHeader {letter-spacing:2px}
+/*h1.bankColorizedHeader > em:nth-child(6n-5) {text-shadow: -1px 0 #D4003A, 0 1px #D4003A, 1px 0 #D4003A, 0 -1px #D4003A;}*/
+h1.bankColorizedHeader > em:nth-child(6n-5) {text-shadow: -1px 0 #CC006A, 0 1px #CC006A, 1px 0 #CC006A, 0 -1px #CC006A;}
+h1.bankColorizedHeader > em:nth-child(6n-4) {text-shadow: -1px 0 #DE7904, 0 1px #DE7904, 1px 0 #DE7904, 0 -1px #DE7904;}
+h1.bankColorizedHeader > em:nth-child(6n-3) {text-shadow: -1px 0 #004F3A, 0 1px #004F3A, 1px 0 #004F3A, 0 -1px #004F3A;}
+h1.bankColorizedHeader > em:nth-child(6n-2) {text-shadow: -1px 0 #671575, 0 1px #671575, 1px 0 #671575, 0 -1px #671575;}
+h1.bankColorizedHeader > em:nth-child(6n-1) {text-shadow: -1px 0 #D4020B, 0 1px #D4020B, 1px 0 #D4020B, 0 -1px #D4020B;}
+h1.bankColorizedHeader > em:nth-child(6n)   {text-shadow: -1px 0 #007578, 0 1px #007578, 1px 0 #007578, 0 -1px #007578;}
+/* COMMON end*/
+
+/* <editor-fold desc="HEADER" defaultstate="collapsed"> */
+#header-bar {width:100%;height:auto;margin-top:5px;padding:10px 0;border-bottom:1px solid #F0F0F0;background-color:#f8f8f8}
+
+header {width: 980px;margin: auto;zoom:1;font-size: 1.2em;color:#333}
+header:before, header:after {content:"";display:table;}
+header:after {clear:both;}
+header a {color:#333}
+header h1 {float: left;}
+header h1 a {width: 164px;height: 85px;display: block;background: url('../img/logo.png') no-repeat 0 0;}
+header .pig {width:120px;height:115px;margin:25px 0 0 510px;position:absolute;background: url('../img/pig.png') no-repeat 0 0}
+
+header nav {margin-top:10px;float: left;}
+header nav li {display: inline;}
+header nav li:after {content: " | ";padding:0 5px;color:#D6D6D6}
+header nav li a {padding:2px 7px}
+header nav li.active a, header li a:hover{
+	background-color:#A6C0C5; border: 1px solid; border-color: #D1DCDE #6D969E #6D969E #D1DCDE; 
+	-webkit-border-radius:3px;border-radius:3px;
+	color: #fff;
+}
+
+header ul.account {float: right;}
+header ul.account li {display: inline;}
+header ul.account li:after {content: " | ";padding:0 10px;color:#D6D6D6}
+header ul.account li:last-child:after{content: "";padding:0}
+header .mail {padding: 3px 7px 2px 7px;}
+header .mail em {width:24px;height:24px;margin:0 10px -6px 0;display:inline-block;background: url('../img/mail.png') no-repeat 0 0;}
+header .logout {padding: 3px 7px 2px 35px;background: url('../img/exit.png') no-repeat 5px 0;}
+
+header .info {margin-top:-40px;float:right;font-size:0.9em}
+header .info p {float:left;text-align:right}
+header .info p span {display:block;margin:2px 0 8px 0}
+header .info img{width:60px;height:60px;margin-left:20px;border:2px solid #D6D6D6;border-radius:150px;-webkit-border-radius:150px;-moz-border-radius:150px}
+header .info img:hover{border:2px solid #ec0041}
+/* </editor-fold> */
+
+/* <editor-fold desc="FOOTER" defaultstate="collapsed"> */
+#footer {width:980px;height:119px;margin: 20px auto 0 auto}
+#footer .bank {width:81px;height:119px;float:left;background: url('../img/bank.png') no-repeat 0 1px}
+#footer p {float:left;margin: 102px 0 0 20px}
+/* </editor-fold> */
+
+#wrapper {width:980px;margin:15px auto 0 auto;zoom:1}
+#wrapper:before, #wrapper:after {content:"";display:table;}
+#wrapper:after {clear:both;}
+#menu, #content {-webkit-border-radius:20px;-moz-border-radius:20px;border-radius:20px}
+
+/* <editor-fold desc="MENU" defaultstate="collapsed"> */
+#menu {
+	width:200px;padding:20px 15px;float:left;line-height:25px;
+	background-color:#A6C0C5; border: 1px solid; border-color: #6D969E #D1DCDE #D1DCDE #6D969E;
+	-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;}
+#menu a {padding:2px 4px;}
+#menu li.active a, #menu a:hover {
+	background-color:#F8F8F8; border: 1px solid; border-color: #D1DCDE #6D969E #6D969E #D1DCDE; 
+	-webkit-border-radius:3px; -moz-border-radius:3px; border-radius:3px;}
+#menu ul ul {margin-left:15px}
+/* </editor-fold> */
+
+/* CONTENT */
+#content {width:705px;padding:10px 15px 20px 15px;float:right;border-top:1px solid #F0F0F0;background-color:#f8f8f8}
+#content h1 {font-size: 2.3em;margin-bottom:20px}
+
+table.list {width:100%}
+table.list td {padding:10px}
+table.list thead {background-color:#ec0041;color:#fff}
+table.list tr:nth-child(even) {background-color:#F0F0F0}
+table.list td:last-child {text-align: right}
+
+table.transfer {width:100%}
+table.transfer td {padding:5px; vertical-align: central;}
+table.transfer thead {
+	background-color:#A6C0C5; border: 1px solid; border-color: #6D969E #D1DCDE #D1DCDE #6D969E;
+	-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;}
+
+table.transfer tbody td {padding-bottom:15px}
+table.transfer tbody h3 {font-size:1.2em;font-weight:bold}
+table.transfer tbody p {margin-bottom:4px}
+table.transfer .text {width:98%}
+table.transfer textarea {width:98%}
+table.transfer select {width:100%;background-color:#E4E4E4}
+/* END CONTENT */
+
+/* <editor-fold desc="QUIZ" defaultstate="collapsed"> */
+.quizilla .quizilla-question         {margin-bottom:10px;padding:10px 10px 17px 10px; border-bottom: 1px solid #DFDFDF}
+.quizilla .quizilla-question.success {background-color:#00975A; border-radius:10px;}
+.quizilla .quizilla-question.failure {background-color:#FFCBCB; border-radius:10px;}
+.quizilla .quizilla-question h3      {font-size:1.2em;margin:0}
+.quizilla .quizilla-answers          {padding:10px 0 0 10px;list-style-type: none}
+.quizilla .quizilla-answer           {margin: 3px 0}
+.quizilla .quizilla-answer > label,
+.quizilla .quizilla-answer > input   {cursor:pointer}
+.quizilla .quizilla-answer-correct   {font-weight:bold}
+.quizilla .quizilla-answer-fail      {text-decoration: line-through}
+.quizilla-checkQuiz                  {padding:5px 10px;font-size:1.2em;border:none;cursor:pointer;background-color: #ec0041;color: #fff;-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px}
+
+#menu .quiz {text-align:center}
+#menu .quiz em {font-weight:bold}
+#quizilla-result {margin-bottom:10px;padding:10px 10px 17px 10px;line-height:22px;background-color:#00975A; border: 1px solid; border-color: #00BD70 #007043 #007043 #00BD70; border-radius: 4px;}
+#quizilla-result h3 {padding-bottom:5px;margin-bottom:20px;font-weight:bold;font-size:1.2em;border-bottom: 1px solid #B2E9FF}
+#quizilla-result strong {font-weight:1.1em;font-weight:bold;color:#ec0041}
+/* </editor-fold> */
+
+.hidden {
+	display: none;
+}
+
+.shown {
+	display: block;
+}
+
+.tabSelected {
+	background: #A6C0C5;
+	color: #fff;
+}
+.zasady-bezpieczenstwa li {
+	list-style-type: disc;
+	margin-left: 16px;
+}

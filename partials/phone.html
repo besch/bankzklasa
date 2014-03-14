@@ -1,0 +1,31 @@
+<nav data-bank-menu></nav>
+<div id="content" ng-controller="account" ng-init="transfer.title = 'Doładowanie telefonu'">
+	<h1 data-bank-colorized-header>Doładowania telefonu</h1>	
+	<form action="#" method="post" name="form" invalidate>
+		<table class="transfer">	
+			<tr>
+				<td style="width:200px"><label for="iPhone">Numer telefonu</label></td>
+				<td>
+					<p><input type="text" ng-model="transfer.name" name="phone" id="iPhone" class="text" ng-pattern="/^\+48 \d{3} \d{3} \d{3}$/" phone-mask required /></p>
+					<p class="error" ng-show="submitted && form.phone.$error.required">Pole jest obowiazkowe</p>	
+					<p class="error" ng-show="submitted && form.phone.$error.pattern">Niepoprawny numer telefonu</p>
+				</td>
+			</tr>
+			<tr>
+				<td style="width:200px"><label for="iAmount">Kwota doładowania</label></td>
+				<td>
+					<p><input type="text" ng-model="transfer.amount" name="amount" id="iAmount" class="text" amount required /></p>
+					<p class="error" ng-show="submitted && form.amount.$error.min">Minimalna kwota doładowania to 1zl</p>
+					<p class="error" ng-show="submitted && form.amount.$error.max">Maksymalna kwota przelewu przekracza Twoje saldo</p>
+					<p class="error" ng-show="submitted && form.amount.$error.float">Podaj poprawna kwote</p>
+					<p class="error" ng-show="submitted && form.amount.$error.required">Pole jest obowiazkowe</p>	
+				</td>
+			</tr>
+		</table>
+		<div class="form-actions" style="margin-top:40px">
+			<input ng-click="submitted = true;
+						form.$valid ? saveTransfer() : null" type="button" class="submit" value="Wyślij przelew" />
+		</div>
+	</form>
+</div>
+<script src="js/controller/account.js"></script>
