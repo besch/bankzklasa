@@ -1,0 +1,18 @@
+<nav data-lokata-menu></nav>
+<div id="content" ng-controller="account">
+	<h1 data-bank-colorized-header>Lista lokat</h1>
+	<table class="transfer">	
+		<tbody>
+			<tr ng-repeat="l in user.lokaty">
+				<td>{{$index}}.</td>
+				<td>{{l.name.label}}</td>
+				<td contenteditable>{{l.amount}}</td>
+				<td class="width80"><a class="green" href="" ng-click="allowWrite;saveLokata($index)" editable ng-model="allowWrite">Edytuj kwotę</a></td>
+				<td><a class="red" href="" ng-click="removeLokata($index)">Usuń</a></td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="form-actions">
+		<a href="app.html#/account/zaloz-lokate"><input type="button" class="submit" value="Powrót" /></a>	
+	</div>
+</div>

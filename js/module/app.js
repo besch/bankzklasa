@@ -55,6 +55,10 @@ app.config(['$routeProvider', function($routeProvider) {
 		templateUrl: 'partials/poczta.html'
 	}).when('/account/zasady_bezpieczenstwa', {
 		templateUrl: 'partials/zasady_bezpieczenstwa.html'
+	}).when('/account/zaloz-lokate', {
+		templateUrl: 'partials/zaloz-lokate.html'
+	}).when('/account/lista-lokat', {
+		templateUrl: 'partials/lista-lokat.html'
 	}).otherwise({
 		redirectTo: '/account'
 	});
@@ -95,6 +99,7 @@ app.factory('userService', function($rootScope, $q) {
 		});
 		return deferred.promise;
 	};
+
 
 	/**
 	 * Zwraca zalogowanego uzytkownika
@@ -362,6 +367,21 @@ app.directive('bankMask', function() {
 	};
 });
 
+app.directive('moneyMask', function() {
+	return {
+		restrict: 'A',
+		require: 'ngModel',
+		link: function(scope, el, attr, ctrl) {
+			el.mask('999.999,99');
+			el.on('keyup', function() {
+				scope.$apply(function() {
+					ctrl.$setViewValue(el.val());
+				});
+			});
+		}
+	};
+});
+
 app.factory('fileReader', ['$q', '$log', function($q, $log) {
 
    var onLoad = function(reader, deferred, scope) {
@@ -437,6 +457,23 @@ app.directive('bankMenu', ['$location', function(location) {
 			'<li><a href="app.html#/account/phone">Doładowania telefonu</a></li>' +
 			'</ul>',
 		link: function(scope, element, attrs, controller) {
+			element.attr('id', 'menu');
+			$('a[href$="'+location.path()+'"]', element).parent().each(function(i, el) {
+				if (!$(el).next('ul')[0]) $(el).addClass('active');
+			});
+		}
+	};
+}]);
+
+
+app.directive('lokataMenu', ['$location', function(location) {
+	return {
+		restrict: 'A',
+		template: '<ul>' + 
+		'<li><a href="app.html#/account/zaloz-lokate">Załóż lokatę</a></li>' +
+		'<li><a href="app.html#/account/lista-lokat">Lista lokat</a></li>' +
+		'</ul>',
+		link: function(scope, element, atr, ctrl) {
 			element.attr('id', 'menu');
 			$('a[href$="'+location.path()+'"]', element).parent().each(function(i, el) {
 				if (!$(el).next('ul')[0]) $(el).addClass('active');

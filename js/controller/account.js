@@ -16,6 +16,10 @@ app.controller('account', function($scope, $rootScope, userService, $location) {
 		subAddress: '',
 		number:     ''
 	};
+	$scope.lokata = {
+		name: 		'',
+		amount: 	''
+	};
 
 	$scope.saveTransfer = function() {
 		var balance = parseInt($scope.user.balance) - $scope.transfer.amount;
@@ -99,4 +103,110 @@ app.controller('account', function($scope, $rootScope, userService, $location) {
 		$scope.transfer.subAddress = $scope.recipient ? $scope.recipient.subAddress : '';
 		$scope.transfer.number     = $scope.recipient ? $scope.recipient.number : '';
 	};
+
+
+
+
+
+	$scope.lokaty = [
+		{ label: 'Wybierz jedną z opcji', value: 0 },
+		{ label: '„CArmelkowa lokata”. Lokata na 2 miesiące z oprocentowaniem 2% w skali roku', value: 1},
+		{ label: '„Świnka-skarbonka-6”. Lokata na  6 miesięcy z oprocentowaniem 2,5% w skali roku', value: 2},
+		{ label: '„Świnka-skarbonka-12”. Lokata na  12 miesięcy z oprocentowaniem 2,5% w skali roku', value: 3},
+		{ label: '„Świnka-skarbonka-24”. Lokata na  24 miesięcy z oprocentowaniem 2,5% w skali roku', value: 4}
+	];
+	$scope.lokata.name = $scope.lokaty[0];
+
+	$scope.createLokata = function() {
+		console.log($scope.user.lokaty);
+		// angular.forEach($scope.user.lokata.name, function(name) {
+			// if(name != $scope.lokata.name) {
+				$scope.user.lokaty.push($scope.lokata);
+				var promise = userService.update($scope.user);
+				promise.then(function(user) {
+					$location.path('/account/lista-lokat');
+					// $rootScope.$on('$routeChangeSuccess', function(event, next, current) {
+					// 	next.scope.lokataCreateSuccess = true;
+					// });
+				});
+				// $scope.lokata = null;
+		// 	}
+		// });
+	};
+
+	$scope.saveLokata = function(index) {
+		angular.forEach($scope.user.lokaty, function (val, key) {
+			if(index == key) {
+				$scope.user.lokaty[key].amount = 
+				userService.update($scope.user);
+			}
+		});
+	};
+
+	$scope.removeLokata = function(index) {
+		angular.forEach($scope.user.lokaty, function (val, key) {
+			if(index == key) {
+				$scope.user.lokaty.splice(key, 1);
+				userService.update($scope.user);
+			}
+		});
+	};
+});
+
+
+
+
+
+app.directive('editable', function() {
+	return {
+		restrict: 'A',
+		// controller: function($scope) {
+		// 	$scope.isEditable = false;
+
+		// 	$scope.clickToEdit
+		// },
+		link: function(scope, el, atr, ctrl) {
+			el.on('click', function() {
+				scope.allowWrite = false;
+				if(el.html() == 'Edytuj kwotę') {
+					el.parent().prev().focus();
+					el.html('Zachowaj').attr('class', 'zachowaj-zmiany');
+					el.on('click', function() {
+						el.removeAttr('class', 'zachowaj-zmiany').attr('class', 'green');
+						el.html('Edytuj kwotę');
+						scope.allowWrite = true;
+					});
+				}
+			});
+		}
+	};
+});
+
+
+
+app.directive('contenteditable', function() {
+    return {
+      restrict: 'A',
+      require: '?ngModel',
+      link: function(scope, element, attrs, ngModel) {
+        if(!ngModel) return;
+
+        ngModel.$render = function() {
+          element.html(ngModel.$viewValue || '');
+        };
+
+        element.on('blur keyup change', function() {
+          scope.$apply(read);
+        });
+        read();
+
+        function read() {
+          var html = element.html();
+          if( attrs.stripBr && html == '<br>' ) {
+            html = '';
+          }
+          ngModel.$setViewValue(html);
+        }
+      }
+    };
 });
