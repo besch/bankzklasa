@@ -49,6 +49,10 @@ app.config(['$routeProvider', function($routeProvider) {
 		templateUrl: 'partials/lokata.html'
 	}).when('/account/rachunek', {
 		templateUrl: 'partials/rachunek.html'
+	}).when('/account/rachunek-zaloz', {
+		templateUrl: 'partials/rachunek-zaloz.html'
+	}).when('/account/rachunek-lista', {
+		templateUrl: 'partials/rachunek-lista.html'
 	}).when('/account/kredyty', {
 		templateUrl: 'partials/kredyty.html'
 	}).when('/account/poczta', {
@@ -467,6 +471,23 @@ app.directive('bankMenu', ['$location', function(location) {
 
 
 app.directive('lokataMenu', ['$location', function(location) {
+	return {
+		restrict: 'A',
+		template: '<ul>' + 
+		'<li><a href="app.html#/account/zaloz-lokate">Załóż lokatę</a></li>' +
+		'<li><a href="app.html#/account/lista-lokat">Lista lokat</a></li>' +
+		'</ul>',
+		link: function(scope, element, atr, ctrl) {
+			element.attr('id', 'menu');
+			$('a[href$="'+location.path()+'"]', element).parent().each(function(i, el) {
+				if (!$(el).next('ul')[0]) $(el).addClass('active');
+			});
+		}
+	};
+}]);
+
+
+app.directive('rachunekMenu', ['$location', function(location) {
 	return {
 		restrict: 'A',
 		template: '<ul>' + 

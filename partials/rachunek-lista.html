@@ -1,4 +1,4 @@
-<nav data-lokata-menu></nav>
+<nav data-rachunek-menu></nav>
 <div id="content" ng-controller="account">
 	<h1 data-bank-colorized-header>Lista lokat</h1>
 	<table class="transfer">	
@@ -9,7 +9,7 @@
 				<td>{{l.name.label}}</td>
 				<td contenteditable ng-model="isUpdated" index="$index">{{l.amount}}</td>
 				<td class="width80"><a class="green" href="" editable>Edytuj kwotę</a></td>
-				<td><a class="red" href="" ng-click="removeLokata($index)">Usuń</a></td>
+				<td><a class="red" href="" ng-click="removeRachunek($index)">Usuń</a></td>
 			</tr>
 		</tbody>
 	</table>
@@ -17,7 +17,3 @@
 		<a href="app.html#/account/zaloz-lokate"><input type="button" class="submit" value="Powrót" /></a>	
 	</div>
 </div>
-
-
-<!-- ng-init="allowWrite = true" -->
-<!-- ng-click="allowWrite;saveLokata($index)" -->

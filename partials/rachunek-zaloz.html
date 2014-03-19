@@ -1,0 +1,33 @@
+<style type="text/css">
+	.align-fields {
+		float: left;
+		clear: both;
+	}
+	:disabled {
+		opacity: .5;
+	}
+</style>
+<nav data-rachunek-menu></nav>
+<div id="content" ng-controller="account">
+	<h1 data-bank-colorized-header>Załóż rachunek oszczędnościowy</h1>
+	<form action="#" method="post" name="form" invalidate>
+		<table class="transfer">	
+			<tr>
+				<td class="align-fields">
+					<label for="rachunek-select">Wybierz rodzaj lokaty</label>
+					<select id="rachunek-select" ng-model="rachunek.name" ng-options="l.label for l in lokaty" name="lokaty"></select>
+				</td>
+				<td class="align-fields">
+					<p><label for="rachunek-kwota">Wprowadź kwotę</label></p>
+					<p><input id="rachunek-kwota" ng-model="rachunek.amount" required ng-pattern="/^\d{0,3}\.{1}\d{0,3}\,{1}\d{2}$/" money-mask required /></p>
+					<p class="error" ng-show="submitted && form.amount.$error.required">Pole jest wymagane</p>
+					<p class="error" ng-show="submitted && form.amount.$error.pattern">Niepoprawny format</p>
+				</td>
+			</tr>
+		</table>
+		<div class="form-actions" style="margin-top:40px">
+			<input ng-disabled="rachunek.name.value == 0" ng-click="submitted = true;form.$valid ? createrachunek() : null" type="button" class="submit" value="Zapisz lokatę" />
+		</div>
+	</form>
+</div>
+<script src="js/controller/account.js"></script>

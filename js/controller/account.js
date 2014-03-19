@@ -134,13 +134,12 @@ app.controller('account', function($scope, $rootScope, userService, $location) {
 		// });
 	};
 
-	$scope.saveLokata = function(index) {
-		angular.forEach($scope.user.lokaty, function (val, key) {
-			if(index == key) {
-				$scope.user.lokaty[key].amount = 
-				userService.update($scope.user);
-			}
-		});
+	$scope.saveLokata = function(index, newVal) {
+				$scope.user.lokaty[index].amount = newVal;
+				var promise = userService.update($scope.user);
+				promise.then(function(user) {
+					// console.log('saved');
+				});
 	};
 
 	$scope.removeLokata = function(index) {
@@ -160,22 +159,17 @@ app.controller('account', function($scope, $rootScope, userService, $location) {
 app.directive('editable', function() {
 	return {
 		restrict: 'A',
-		// controller: function($scope) {
-		// 	$scope.isEditable = false;
-
-		// 	$scope.clickToEdit
-		// },
+		scope: {
+			index: '@',
+		},
 		link: function(scope, el, atr, ctrl) {
 			el.on('click', function() {
-				scope.allowWrite = false;
 				if(el.html() == 'Edytuj kwotę') {
 					el.parent().prev().focus();
 					el.html('Zachowaj').attr('class', 'zachowaj-zmiany');
-					el.on('click', function() {
-						el.removeAttr('class', 'zachowaj-zmiany').attr('class', 'green');
-						el.html('Edytuj kwotę');
-						scope.allowWrite = true;
-					});
+				} else {
+					el.removeAttr('class', 'zachowaj-zmiany').attr('class', 'green');
+					el.html('Edytuj kwotę');
 				}
 			});
 		}
@@ -207,6 +201,25 @@ app.directive('contenteditable', function() {
           }
           ngModel.$setViewValue(html);
         }
+
+        scope.$watch('isUpdated', function(newVal) {
+			if(newVal) {
+				element.next().on('click', function() {
+					scope.saveLokata(scope.$index, newVal);
+				});
+			}
+		});
       }
     };
 });
+
+
+
+$scope.rachunek = [
+	{ label: 'Wybierz jedną z opcji', value: 0 },
+	{ label: 'CArmelkowy zysk z oprocentowaniem 3% w skali roku', value: 1},
+	{ label: 'CArmelkowy zysk z oprocentowaniem 4% w skali roku', value: 2},
+	{ label: 'CArmelkowy zysk z oprocentowaniem 5% w skali roku', value: 3},
+	{ label: 'CArmelkowy zysk z oprocentowaniem 6% w skali roku', value: 4}
+];
+$scope.rachunek.name = $scope.rachunek[0];
