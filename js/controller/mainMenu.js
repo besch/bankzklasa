@@ -4,7 +4,7 @@ app.controller('mainMenu', function($scope) {
 		{ name: 'Konto', href: 'app.html#/account'},
 		{ name: 'Lokata', href: 'app.html#/account/lokata'},
 		{ name: 'Rachunek oszczędnościowy', href: 'app.html#/account/rachunek'},
-		{ name: 'Kredyty', href: 'app.html#/account/kredyty'},
+		{ name: 'Kredyty', href: 'app.html#/account/kredyt'},
 	];
 
 	$scope.selectedIndex = 0;

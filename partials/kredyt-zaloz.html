@@ -1,0 +1,31 @@
+<style type="text/css">
+	.align-fields {
+		float: left;
+		clear: both;
+	}
+	:disabled {
+		opacity: .5;
+	}
+</style>
+<nav data-kredyt-menu></nav>
+<div id="content" ng-controller="account">
+	<h1 data-bank-colorized-header>Wyślij wniosek o kredyt</h1>
+	<form action="#" method="post" name="form" invalidate>
+		<table class="transfer">	
+			<tr>
+				<td class="align-fields">
+					<label for="kredyt-select">Wybierz kwotę kredytową</label>
+					<select id="kredyt-select" ng-model="kredyt.name" ng-options="k.label for k in kredyty" name="kredyty"></select>
+				</td>
+				<td class="align-fields">
+					<label for="kredyt-opis">Cel aplikacji kredytowej</label>
+					<textarea ng-model="kredyt.desciption" id="kredyt-opis" rows="5" cols="60"></textarea>
+				</td>
+			</tr>
+		</table>
+		<div class="form-actions" style="margin-top:40px">
+			<input ng-disabled="kredyt.name.value == 0" ng-click="submitted = true;form.$valid ? createKredyt() : null" type="button" class="submit" value="Pobierz kredyt" />
+		</div>
+	</form>
+</div>
+<script src="js/controller/account.js"></script>

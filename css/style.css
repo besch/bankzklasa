@@ -198,3 +198,32 @@ table.transfer select {width:100%;background-color:#E4E4E4}
 	padding: 5px;
 	border-radius: 3px;
 }
+
+.margin-bottom-20 {
+	margin-bottom: 20px;
+}
+
+.align-left {
+	text-align: left;
+	padding: 5px;
+}
+
+.bold{
+	font-weight: bold;
+}
+
+.width4Percent {
+	width: 4%;
+}
+
+.width50Percent {
+	width: 50%;
+}
+
+.width20Percent {
+	width: 20%;
+}
+
+.width40Percent {
+	width: 40%;
+}

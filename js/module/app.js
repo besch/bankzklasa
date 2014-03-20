@@ -53,8 +53,8 @@ app.config(['$routeProvider', function($routeProvider) {
 		templateUrl: 'partials/rachunek-zaloz.html'
 	}).when('/account/rachunek-lista', {
 		templateUrl: 'partials/rachunek-lista.html'
-	}).when('/account/kredyty', {
-		templateUrl: 'partials/kredyty.html'
+	}).when('/account/kredyt', {
+		templateUrl: 'partials/kredyt.html'
 	}).when('/account/poczta', {
 		templateUrl: 'partials/poczta.html'
 	}).when('/account/zasady_bezpieczenstwa', {
@@ -63,6 +63,10 @@ app.config(['$routeProvider', function($routeProvider) {
 		templateUrl: 'partials/zaloz-lokate.html'
 	}).when('/account/lista-lokat', {
 		templateUrl: 'partials/lista-lokat.html'
+	}).when('/account/kredyt-zaloz', {
+		templateUrl: 'partials/kredyt-zaloz.html'
+	}).when('/account/kredyt-lista', {
+		templateUrl: 'partials/kredyt-lista.html'
 	}).otherwise({
 		redirectTo: '/account'
 	});
@@ -207,7 +211,7 @@ app.directive('amount', function() {
         		if(viewValue < 1) {
           		ctrl.$setValidity('min', false);
 							return viewValue;
-        		}else if (viewValue > parseFloat(scope.user.balance)) {
+        		}else if (viewValue > parseFloat(scope.user.balance.toFixed(2))) {
          		ctrl.$setValidity('max', false);
           		return viewValue;
         		}
@@ -376,7 +380,7 @@ app.directive('moneyMask', function() {
 		restrict: 'A',
 		require: 'ngModel',
 		link: function(scope, el, attr, ctrl) {
-			el.mask('999.999,99');
+			el.mask('999.99 PLN');
 			el.on('keyup', function() {
 				scope.$apply(function() {
 					ctrl.$setViewValue(el.val());
@@ -491,8 +495,24 @@ app.directive('rachunekMenu', ['$location', function(location) {
 	return {
 		restrict: 'A',
 		template: '<ul>' + 
-		'<li><a href="app.html#/account/zaloz-lokate">Załóż lokatę</a></li>' +
-		'<li><a href="app.html#/account/lista-lokat">Lista lokat</a></li>' +
+		'<li><a href="app.html#/account/rachunek-zaloz">Załóż rachunek</a></li>' +
+		'<li><a href="app.html#/account/rachunek-lista">Lista rachunków</a></li>' +
+		'</ul>',
+		link: function(scope, element, atr, ctrl) {
+			element.attr('id', 'menu');
+			$('a[href$="'+location.path()+'"]', element).parent().each(function(i, el) {
+				if (!$(el).next('ul')[0]) $(el).addClass('active');
+			});
+		}
+	};
+}]);
+
+app.directive('kredytMenu', ['$location', function(location) {
+	return {
+		restrict: 'A',
+		template: '<ul>' + 
+		'<li><a href="app.html#/account/kredyt-zaloz">Załóż kredyt</a></li>' +
+		'<li><a href="app.html#/account/kredyt-lista">Lista kredytów</a></li>' +
 		'</ul>',
 		link: function(scope, element, atr, ctrl) {
 			element.attr('id', 'menu');

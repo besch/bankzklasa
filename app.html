@@ -18,7 +18,7 @@
 				<div class="clear"></div>
 				<nav ng-controller="mainMenu">
 					<ul>
-						<li ng-repeat="menu in menuLinks" ng-click="toggleSelect($index)" ng-click="getClass($index)" ng-class="getClass($index)">
+						<li ng-repeat="menu in menuLinks" ng-click="toggleSelect($index)" ng-click="getClass($index)">
 							<a href="{{menu.href}}">{{menu.name}}</a>
 						</li>
 <!-- 					<li class="active" data-menu="account"><a href="app.html#/account">Konto</a></li>

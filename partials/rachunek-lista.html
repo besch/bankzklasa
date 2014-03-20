@@ -1,19 +1,25 @@
 <nav data-rachunek-menu></nav>
 <div id="content" ng-controller="account">
-	<h1 data-bank-colorized-header>Lista lokat</h1>
+	<h1 data-bank-colorized-header>Lista rachunków oszczędnościowych</h1>
 	<table class="transfer">	
 		<tbody>
-			<!-- <tr ng-show="!user.lokaty.length">Nie masz dostępnych lokat.</tr> -->
-			<tr ng-repeat="l in user.lokaty track by $index">
-				<td>{{$index}}.</td>
-				<td>{{l.name.label}}</td>
-				<td contenteditable ng-model="isUpdated" index="$index">{{l.amount}}</td>
-				<td class="width80"><a class="green" href="" editable>Edytuj kwotę</a></td>
-				<td><a class="red" href="" ng-click="removeRachunek($index)">Usuń</a></td>
+			<p class="margin-bottom-20">Masz {{user.balance}} PLN do dyspozycji na koncie.</p>
+			<p ng-show="user.rachunki.length == 0">Nie masz dostępnych lokat.</p>
+			<tr>
+			   	<th class="width4Percent align-left bold">Nr.</th>
+			   	<th class="width50Percent align-left bold">Nazwa</th>
+			   	<th class="width20Percent align-left bold">Kwota</th>
+			</tr>
+			<tr ng-repeat="r in user.rachunki track by $index">
+				<td class="width4Percent align-left">{{$index}}.</td>
+				<td class="width50Percent align-left">{{r.name.label}}</td>
+				<td class="width20Percent align-left"index="$index">{{r.amount}}</td>
+				<!-- <td class="width80"><a class="green" href="" editable>Edytuj kwotę</a></td> -->
+				<td class="width20Percent align-left"><a class="red" href="" ng-click="removeRachunek($index)">Usuń</a></td>
 			</tr>
 		</tbody>
 	</table>
 	<div class="form-actions">
-		<a href="app.html#/account/zaloz-lokate"><input type="button" class="submit" value="Powrót" /></a>	
+		<a href="app.html#/account/rachunek-zaloz"><input type="button" class="submit" value="Powrót" /></a>	
 	</div>
 </div>

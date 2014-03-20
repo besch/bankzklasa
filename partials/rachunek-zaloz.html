@@ -13,20 +13,22 @@
 	<form action="#" method="post" name="form" invalidate>
 		<table class="transfer">	
 			<tr>
+				<p class="margin-bottom-20">Masz {{user.balance}} PLN do dyspozycji na koncie.</p>
 				<td class="align-fields">
-					<label for="rachunek-select">Wybierz rodzaj lokaty</label>
-					<select id="rachunek-select" ng-model="rachunek.name" ng-options="l.label for l in lokaty" name="lokaty"></select>
+					<label for="rachunek-select">Wybierz rachunek oszczędnosciowy</label>
+					<select id="rachunek-select" ng-model="rachunek.name" ng-options="r.label for r in rachunki" name="rachunki"></select>
 				</td>
 				<td class="align-fields">
-					<p><label for="rachunek-kwota">Wprowadź kwotę</label></p>
-					<p><input id="rachunek-kwota" ng-model="rachunek.amount" required ng-pattern="/^\d{0,3}\.{1}\d{0,3}\,{1}\d{2}$/" money-mask required /></p>
+					<p><label for="rachunek-kwota">Przelej kwotę z głównego konta na rachunek oszczędnościowy</label></p>
+					<p><input id="rachunek-kwota" ng-model="rachunek.amount" required ng-pattern="/^\d{0,3}\,?\d{0,3}\.{1}\d{2} (PLN)$/" money-mask required /></p>
 					<p class="error" ng-show="submitted && form.amount.$error.required">Pole jest wymagane</p>
 					<p class="error" ng-show="submitted && form.amount.$error.pattern">Niepoprawny format</p>
+					<p class="error" ng-show="submitted && balanceError">Nie posiadasz wystarczającej kwoty na swoim koncie bankowym. Masz {{user.balance}} do zainwestowania</p>
 				</td>
 			</tr>
 		</table>
 		<div class="form-actions" style="margin-top:40px">
-			<input ng-disabled="rachunek.name.value == 0" ng-click="submitted = true;form.$valid ? createrachunek() : null" type="button" class="submit" value="Zapisz lokatę" />
+			<input ng-disabled="rachunek.name.value == 0" ng-click="submitted = true;form.$valid ? createRachunek() : null" type="button" class="submit" value="Zapisz rachunek" />
 		</div>
 	</form>
 </div>

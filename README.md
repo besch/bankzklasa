@@ -1,36 +1,4 @@
-Lokata I
-Załóż lokatę
-Nowa lokata [do wyboru jako rozwijana lista: „CArmelkowa lokata” I np. Lokata na 2 miesiące z oprocentowaniem 2% w skali roku – tekst w infotipie /  „Świnka-skarbonka I np. Lokata na  6 miesięcy z oprocentowaniem 2,5% w skali roku – tekst w infotipie
-następnie użytkownik wypełnia pole
-Kwota (wolne pole – wpisuje użytkownik)
-Lista lokat – pojawiają się te, które zostaną założone 
-Naliczone odsetki 
-Kwota (suma kwoty lokaty + odsetki)
+bankzklasa
+==========
 
-Dodatkowe pytania do tej sekcji:
-czy możliwe będzie zastosowanie w aplikacji algorytmu, dzięki któremu będą naliczały się odsetki do kwoty lokaty? W jaki sposób określić to w czasie – czy rzeczywiście co miesiąc, czy może przy każdym logowaniu użytkownika odsetki będą się naliczać? Jak Państwo rekomendują?
-W jaki sposób/po jakim czasie użytkownik będzie mógł zlikwidować lokatę – taką możliwości również powinniśmy umożliwić. Może po trzech logowaniach? Jak Państwo rekomendują?
-
-Rachunek oszczędnościowy I
-Załóż rachunek oszczędnościowy I np. CArmelkowy zysk z oprocentowaniem 3% w skali roku – tekst w infotipie
-Przelew [użytkownik przelewa pieniądze z konta na rachunek oszczędnościowy – na ekranie widzi do wypełnienia pola Kwota – Z konta (nr stały) Na rachunek oszczędnościowy (nr stały)]
-
-Kredyt
-Wyślij wniosek o kredyt [chcemy ograniczyć swobodę użytkownika i zaproponujemy mu kredyt celowy, tzn. użytkownik w „formularzu” wpisuje na co, chciałby wziąć kredyt, czyli
-Kredyt na ......... (miejsce do uzupełnienia przez użytkownika)
-Kwota ...... (miejsce do uzupełnienia przez użytkownika) I – nie więcej niż np. 1 000 zł albo rozwijana lista kredyt od 100 do 500/1000 zł, kwota co 100 zł, czyli 100, 200, 300,... itd.
-Oprocentowanie 4% (stałe)
-Informacje o kredycie
-Kwota kredytu
-Kwota pozostała do spłacenia
-Odsetki
-Spłacenie raty kredytu (jako formularz przelewu)
-Harmonogram spłat – ewentualnie
-
-Dodatkowe pytania do tej sekcji:
-Czy możliwe jest udostępnienie użytkownikowi wpisania celu kredytu?
-W jaki sposób proponują Państwo rozwiązać problem możliwej do pobrania kwoty kredytu i określeniu harmonogramu spłat? Chodzi mi dokładnie o to: I – nie więcej niż np. 1 000 zł albo rozwijana lista kredyt od 100 do 500/1000 zł, kwota co 100 zł, czyli 100, 200, 300,... itd.
-Czy możliwe jest wykorzystanie jakiegoś algorytmu, który pozwalałby naliczać w aplikacji odsetki do kolejnych rat kredytu? Czy prościej byłoby, gdybyśmy określili możliwe kwoty kredytu od 100 do 500 i co 100, czy może od 100 do 1 000, przy czym użytkownik wpisywałby samodzielnie kwotę z założeniem, że musi ona być pełna, tzn. 500, 600 itp. W jaki sposób te odsetki mogłyby się naliczać?
-Harmonogram spłat/przypomnienie o spłacie raty kredytu – czy możliwe jest dodanie w aplikacji takiej funkcji, że w momencie, gdy użytkownik np. przy pierwszym logowaniu wziął kredyt/wysłał wniosek, to czy przy kolejnym logowaniu się do aplikacji, pojawi mu się ekran – pamiętaj o spłacie rat kredytu, ekran ten powinien wymusić na u. wykonanie tej operacji, inaczej u. nie będzie mógł rozpocząć pracy z demo?
-
-
+bankzklasa

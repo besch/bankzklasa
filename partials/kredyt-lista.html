@@ -1,0 +1,25 @@
+<nav data-kredyt-menu></nav>
+<div id="content" ng-controller="account">
+	<h1 data-bank-colorized-header>Lista pobranych kredytów</h1>
+	<table class="transfer">	
+		<tbody>
+			<p class="margin-bottom-20">Twoje saldo to {{user.balance}} PLN.</p>
+			<p ng-show="user.kredyty.length == 0">Nie masz dostępnych kredytów.</p>
+			<tr>
+			   	<th class="width4Percent align-left bold">Nr.</th>
+			   	<th class="width50Percent align-left bold">Nazwa</th>
+			   	<th class="width20Percent align-left bold">Kwota</th>
+			</tr>
+			<tr ng-repeat="k in user.kredyty track by $index">
+				<td class="width4Percent align-left">{{$index}}.</td>
+				<td class="width50Percent align-left">{{k.name.label}}</td>
+				<td class="width20Percent align-left"index="$index">{{k.name.value}}</td>
+				<td class="width20Percent align-left"><a class="red" href="" click-to-edit="{{k.name.value}}">Spłać kredyt</a></td>
+				<!-- ng-click="payOffCredit($index)" -->
+			</tr>
+		</tbody>
+	</table>
+	<div class="form-actions">
+		<a href="app.html#/account/kredyt-zaloz"><input type="button" class="submit" value="Powrót" /></a>	
+	</div>
+</div>
