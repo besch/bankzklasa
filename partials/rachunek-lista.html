@@ -4,8 +4,8 @@
 	<table class="transfer">	
 		<tbody>
 			<p class="margin-bottom-20">Masz {{user.balance}} PLN do dyspozycji na koncie.</p>
-			<p ng-show="user.rachunki.length == 0">Nie masz dostępnych lokat.</p>
-			<tr>
+			<p ng-show="!user.rachunki || user.rachunki.length == 0">Nie masz dostępnych lokat.</p>
+			<tr ng-hide="!user.rachunki || user.rachunki.length == 0">
 			   	<th class="width4Percent align-left bold">Nr.</th>
 			   	<th class="width50Percent align-left bold">Nazwa</th>
 			   	<th class="width20Percent align-left bold">Kwota</th>

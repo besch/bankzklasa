@@ -3,18 +3,22 @@
 	<h1 data-bank-colorized-header>Lista pobranych kredytów</h1>
 	<table class="transfer">	
 		<tbody>
+			<span ng-show="balanceLess">Podana kwota jest większa od salda twojego konta.</span>
+			<span ng-show="amountToMuch">Podana kwota jest większa od kwoty do spłacenia.</span>
 			<p class="margin-bottom-20">Twoje saldo to {{user.balance}} PLN.</p>
-			<p ng-show="user.kredyty.length == 0">Nie masz dostępnych kredytów.</p>
-			<tr>
+			<p ng-show="!user.kredyty || user.kredyty.length == 0">Nie masz dostępnych kredytów.</p>
+			<tr ng-hide="!user.kredyty || user.kredyty.length == 0">
 			   	<th class="width4Percent align-left bold">Nr.</th>
 			   	<th class="width50Percent align-left bold">Nazwa</th>
-			   	<th class="width20Percent align-left bold">Kwota</th>
+			   	<th class="width10Percent align-left bold">Kwota</th>
 			</tr>
 			<tr ng-repeat="k in user.kredyty track by $index">
 				<td class="width4Percent align-left">{{$index}}.</td>
 				<td class="width50Percent align-left">{{k.name.label}}</td>
-				<td class="width20Percent align-left"index="$index">{{k.name.value}}</td>
-				<td class="width20Percent align-left"><a class="red" href="" click-to-edit="{{k.name.value}}">Spłać kredyt</a></td>
+				<td class="width10Percent align-left"index="$index">{{k.name.value}}</td>
+				<td class="width40Percent align-left">
+					<div class="buttonRed" href="" click-to-edit="k.name.value"></div>
+				</td>
 				<!-- ng-click="payOffCredit($index)" -->
 			</tr>
 		</tbody>

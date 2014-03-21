@@ -212,6 +212,10 @@ table.transfer select {width:100%;background-color:#E4E4E4}
 	font-weight: bold;
 }
 
+.pointer {
+	cursor: pointer;
+}
+
 .width4Percent {
 	width: 4%;
 }
@@ -227,3 +231,29 @@ table.transfer select {width:100%;background-color:#E4E4E4}
 .width40Percent {
 	width: 40%;
 }
+
+.width10Percent {
+	width: 10%;
+}
+
+/*.buttonRed {
+	color:#fff;
+	background: red;
+	border: 1px solid red;
+	border-radius: 5px;
+	padding: 5px 7px;
+	cursor: pointer;
+	text-align: center;
+	font-weight: bold;
+}*/
+
+/*.buttonRed {
+	color:#fff;
+	background: green;
+	border: 1px solid green;
+	border-radius: 5px;
+	padding: 5px 7px;
+	cursor: pointer;
+	/*text-align: center;
+	/*font-weight: bold;
+}*/

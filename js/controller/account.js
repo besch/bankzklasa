@@ -129,36 +129,29 @@ app.controller('account', function($scope, $rootScope, userService, $location) {
 	$scope.createLokata = function() {
 
 		$scope.user.lokaty = $scope.user.lokaty || [];
+		$scope.lokata.amount = parseFloat($scope.lokata.amount.replace(' PLN', ''));
 
-		// console.log($scope.user.lokaty);
-		// angular.forEach($scope.user.lokata.name, function(name) {
-			// if(name != $scope.lokata.name) {
-				$scope.user.lokaty.push($scope.lokata);
-				var promise = userService.update($scope.user);
-				promise.then(function(user) {
-					$location.path('/account/lista-lokat');
-					// $rootScope.$on('$routeChangeSuccess', function(event, next, current) {
-					// 	next.scope.lokataCreateSuccess = true;
-					// });
-				});
-				// $scope.lokata = null;
-		// 	}
-		// });
+		$scope.user.lokaty.push($scope.lokata);
+		var promise = userService.update($scope.user);
+		promise.then(function(user) {
+			$location.path('/account/lista-lokat');
+		});
 	};
 
 	$scope.saveLokata = function(index, newVal) {
-				$scope.user.lokaty[index].amount = newVal;
-				var promise = userService.update($scope.user);
-				promise.then(function(user) {
-					// console.log('saved');
-				});
+		$scope.user.lokaty[index].amount = newVal;
+		userService.update($scope.user);
 	};
 
 	$scope.removeLokata = function(index) {
 		angular.forEach($scope.user.lokaty, function (val, key) {
+			var deleteLokata = confirm('Czy na pewno chcesz usunąć lokatę?');
+
 			if(index == key) {
-				$scope.user.lokaty.splice(key, 1);
-				userService.update($scope.user);
+				if(deleteLokata) {
+					$scope.user.lokaty.splice(key, 1);
+					userService.update($scope.user);
+				}
 			}
 		});
 	};
@@ -238,7 +231,6 @@ app.controller('account', function($scope, $rootScope, userService, $location) {
 
 
 
-
 	$scope.kredyty = [
 		{ label: 'Wybierz jedną z opcji', value: 0 },
 		{ label: 'Kredyt na kwotę 100zł z oprocentowaniem 4%', value: 100},
@@ -261,51 +253,49 @@ app.controller('account', function($scope, $rootScope, userService, $location) {
 		$scope.user.kredyty = $scope.user.kredyty || [];
 
 		$scope.user.kredyty.push($scope.kredyt);
+		$scope.user.balance = (parseFloat($scope.user.balance) + parseFloat($scope.kredyt.name.value)).toFixed(2);
+
 		var promise = userService.update($scope.user);
 		promise.then(function(user) {
-			$scope.user.balance += $scope.kredyt.name.value;
+			
 			$location.path('/account/kredyt-lista');
 		});
 	};
 
-	$scope.payOffCredit = function(index) {
-
-	}
+	$scope.balanceLess = false;
+	$scope.amountToMuch = false;
 
 
 });
 
 
-app.directive('clickToEdit', function() {
+app.directive('clickToEdit', ['userService', function(userService) {
 	return {
 		restrict: 'A',
+		require: '?ngModel',
 		replace: true,
-		require: 'ngModel',
-		template: 	'<td class="width40Percent align-left">' +
+		template: 	'<div class="align-left">' +
 						'<div ng-hide="viewable.editorEnabled">' +
-							'some value' + 
-							'<a ng-show="enableEditor()">Spłać kredyt</a>' +
+							'<a ng-click="enableEditor()" class="green pointer">Spłać kredyt</a>' +
 						'</div>' +
 						'<div ng-show="viewable.editorEnabled">' +
-							'<input ng-model="viewable.editableValue">' +
-							'<a href="#" ng-click="save()">Spłać</a>  ' +
-							'<a ng-click="disableEditor()">Anuluj</a>' +
+							'<input ng-model="viewable.editableValue" size="10">' +
+							'<a ng-click="save()" class="green pointer">Spłać</a>  ' +
+							'<a ng-click="disableEditor()" class="red pointer">Anuluj</a>' +
 						'</div>' +
-						// '<input type="number" ng-model="payOffAmount" placeholder="Kwota" />' +
-						// '<a class="red" href="" ng-click="payOffCredit($index)">Spłać kredyt</a>' +
-					'</td>',
+					'</div>',
 		scope: {
-			value: '=clickToEdit',
+			amountValue: '=clickToEdit',
 		},
 		controller: function($scope) {
 			$scope.viewable = {
-				editableValue: $scope.value,
+				editableValue: $scope.amountValue,
 				editorEnabled: false
 			};
 
 			$scope.enableEditor = function() {
 				$scope.viewable.editorEnabled = true;
-				$scope.viewable.editableValue = $scope.value;
+				$scope.viewable.editableValue = $scope.amountValue;
 			};
 
 			$scope.disableEditor = function() {
@@ -313,12 +303,48 @@ app.directive('clickToEdit', function() {
 			};
 
 			$scope.save = function() {
-				$scope.value = $scope.viewable.editableValue;
-				$scope.disableEditor();
+
+
+				console.log('$scope.$parent.amountToMuch ' + $scope.$parent.amountToMuch);
+				console.log('$scope.user.balance ' + $scope.$parent.user.balance);
+				console.log('viewable.editableValue ' + $scope.viewable.editableValue);
+				console.log('$scope.user.kredyty[$scope.index].value ' + $scope.$parent.user.kredyty[$scope.$parent.$index].name.value);
+				// console.log('$scope.amountValue ' + $scope.amountValue);
+				// return;
+
+				if(parseFloat($scope.viewable.editableValue) > parseFloat($scope.$parent.user.balance)) {
+					return $scope.$parent.balanceLess = true;
+				} 
+				else {
+					if(parseFloat($scope.viewable.editableValue) > parseFloat($scope.$parent.user.kredyty[$scope.$parent.$index].name.value)) {
+						return $scope.$parent.amountToMuch = true;
+					}
+					else if(parseFloat($scope.viewable.editableValue) < parseFloat($scope.$parent.user.kredyty[$scope.$parent.$index].name.value)) {
+						$scope.amountValue = $scope.viewable.editableValue;
+						$scope.disableEditor();
+
+						$scope.$parent.user.kredyty[$scope.$parent.$index].name.value = (parseFloat($scope.$parent.user.kredyty[$scope.$parent.$index].name.value) - parseFloat($scope.viewable.editableValue)).toFixed(2);
+						$scope.$parent.user.balance = (parseFloat($scope.$parent.user.balance) - parseFloat($scope.viewable.editableValue)).toFixed(2);
+						userService.update($scope.$parent.user);
+					}
+					else {
+						$scope.$parent.user.kredyty.splice($scope.index, 1);
+						$scope.$parent.user.balance = (parseFloat($scope.$parent.user.balance) - parseFloat($scope.viewable.editableValue)).toFixed(2);
+						userService.update($scope.$parent.user);
+					}
+				}
 			};
 		},
+		link: function(scope, element, attr, ngModel) {
+			if(!ngModel) return;
+
+			scope.$watch('viewable.editableValue', function(newVal) {
+				if(newVal)
+					scope.viewable.editableValue = newVal;
+			});
+		}
 	};
-});
+}]);
 
 
 app.directive('editable', function() {

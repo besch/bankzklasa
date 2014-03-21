@@ -19,7 +19,7 @@
 				</td>
 				<td class="align-fields">
 					<p><label for="lokata-kwota">Wprowadź kwotę</label></p>
-					<p><input id="lokata-kwota" ng-model="lokata.amount" required ng-pattern="/^\d{0,3}\,{1}\d{0,3}\.{1}\d{2}$/" money-mask required /></p>
+					<p><input id="lokata-kwota" ng-model="lokata.amount" required ng-pattern="/^\d{0,3}\,?\d{0,3}\.{1}\d{2} (PLN)$/" money-mask required="required" /></p>
 					<p class="error" ng-show="submitted && form.amount.$error.required">Pole jest wymagane</p>
 					<p class="error" ng-show="submitted && form.amount.$error.pattern">Niepoprawny format</p>
 				</td>
