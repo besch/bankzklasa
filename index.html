@@ -251,9 +251,9 @@
 				</form>
 			</div>
 			<div class="history">
-				<h3>Lista kont <input type="text" ng-model="searchList.name" placeholder="szukaj" /></h3>
+				<h3>Lista kont <input type="text" ng-model="search.name" placeholder="szukaj" /></h3>
 				<ul>
-					<li ng-repeat="user in users track by $index | filter:searchList | orderBy: 'name'" ng-class="'fulldiv-' + getClass($index)">
+					<li ng-repeat="user in users | filter:search track by user.name | orderBy: 'name'" ng-class="'fulldiv-' + getClass($index)">
 						<img ng-if="user.avatar.length" class="avatar" ng-src="{{user.avatar}}" />
 						<img ng-if="!user.avatar.length" class="avatar" ng-src="img/avatar.png" />
 						<div ng-click="toggleSelect($index)" ng-click"getClass($index)" class="login-name">{{user.name}}</div>

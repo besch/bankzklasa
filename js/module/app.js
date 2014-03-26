@@ -25,51 +25,79 @@ app.run(function($rootScope, $location, userService) {
 			$location.path('/account');
 		}
 	});
+	$rootScope.$on('$viewContentLoaded', function(event, next, current) {
+		if($('#wrapper').height() < 600) {
+			$('#wrapper').height(600);
+		}
+	});
 });
 
 // routing
 app.config(['$routeProvider', function($routeProvider) {
-	$routeProvider.when('/account', {
-		templateUrl: 'partials/account.html'
-	}).when('/account/history', {
-		templateUrl: 'partials/history.html'
-	}).when('/account/transfer', {
-		templateUrl: 'partials/transfer.html'
-	}).when('/account/transfer/success', {
-		templateUrl: 'partials/transfer-success.html'
-	}).when('/account/recipient', {
-		templateUrl: 'partials/recipient.html'
-	}).when('/account/recipient-add', {
-		templateUrl: 'partials/recipient-add.html'
-	}).when('/account/phone', {
-		templateUrl: 'partials/phone.html'
-	}).when('/quiz', {
-		templateUrl: 'partials/quiz.html'
-	}).when('/account/lokata', {
-		templateUrl: 'partials/lokata.html'
-	}).when('/account/rachunek', {
-		templateUrl: 'partials/rachunek.html'
-	}).when('/account/rachunek-zaloz', {
-		templateUrl: 'partials/rachunek-zaloz.html'
-	}).when('/account/rachunek-lista', {
-		templateUrl: 'partials/rachunek-lista.html'
-	}).when('/account/kredyt', {
-		templateUrl: 'partials/kredyt.html'
-	}).when('/account/poczta', {
-		templateUrl: 'partials/poczta.html'
-	}).when('/account/zasady_bezpieczenstwa', {
-		templateUrl: 'partials/zasady_bezpieczenstwa.html'
-	}).when('/account/zaloz-lokate', {
-		templateUrl: 'partials/zaloz-lokate.html'
-	}).when('/account/lista-lokat', {
-		templateUrl: 'partials/lista-lokat.html'
-	}).when('/account/kredyt-zaloz', {
-		templateUrl: 'partials/kredyt-zaloz.html'
-	}).when('/account/kredyt-lista', {
-		templateUrl: 'partials/kredyt-lista.html'
-	}).otherwise({
-		redirectTo: '/account'
-	});
+	$routeProvider
+		.when('/account', {
+			templateUrl: 'partials/account.html'
+		})
+		.when('/account/history', {
+			templateUrl: 'partials/history.html'
+		})
+		.when('/account/transfer', {
+			templateUrl: 'partials/transfer.html'
+		})
+		.when('/account/transfer/success', {
+			templateUrl: 'partials/transfer-success.html'
+		})
+		.when('/account/recipient', {
+			templateUrl: 'partials/recipient.html'
+		})
+		.when('/account/recipient-add', {
+			templateUrl: 'partials/recipient-add.html'
+		})
+		.when('/account/phone', {
+			templateUrl: 'partials/phone.html'
+		})
+		.when('/quiz', {
+			templateUrl: 'partials/quiz.html'
+		})
+		.when('/account/lokata', {
+			templateUrl: 'partials/lokata.html'
+		})
+		.when('/account/rachunek', {
+			templateUrl: 'partials/rachunek.html'
+		})
+		.when('/account/rachunek-zaloz', {
+			templateUrl: 'partials/rachunek-zaloz.html'
+		})
+		.when('/account/rachunek-lista', {
+			templateUrl: 'partials/rachunek-lista.html'
+		})
+		.when('/account/kredyt', {
+			templateUrl: 'partials/kredyt.html'
+		})
+		.when('/account/poczta', {
+			templateUrl: 'partials/poczta.html'
+		})
+		.when('/account/zasady_bezpieczenstwa', {
+			templateUrl: 'partials/zasady_bezpieczenstwa.html'
+		})
+		.when('/account/zaloz-lokate', {
+			templateUrl: 'partials/zaloz-lokate.html'
+		})
+		.when('/account/lista-lokat', {
+			templateUrl: 'partials/lista-lokat.html'
+		})
+		.when('/account/kredyt-zaloz', {
+			templateUrl: 'partials/kredyt-zaloz.html'
+		})
+		.when('/account/kredyt-lista', {
+			templateUrl: 'partials/kredyt-lista.html'
+		})
+		.when('/account/kredyt-odsetki', {
+			templateUrl: 'partials/kredyt-odsetki.html'
+		})
+		.otherwise({
+			redirectTo: '/account'
+		});
 }]);
 
 /****
@@ -390,6 +418,45 @@ app.directive('moneyMask', function() {
 	};
 });
 
+
+var FLOAT_REGEXP = /^\d+((\.|\,)\d{1,2})?$/;
+app.directive('floatField', function () {
+    return {
+        require: 'ngModel',
+        link: function (scope, elm, attrs, ctrl) {
+            ctrl.$parsers.unshift(function (viewValue) {
+                if (FLOAT_REGEXP.test(viewValue)) {
+                    ctrl.$setValidity('float', true);
+                    return parseFloat(viewValue.replace(',', '.'));
+                } else {
+                    ctrl.$setValidity('float', false);
+                    return undefined;
+                }
+            });
+        }
+    };
+});
+
+
+app.directive('minLength', function() {
+	return {
+		restrict: 'A',
+		require: 'ngModel',
+		link: function(scope, elm, attr, ctrl) {
+			ctrl.$parsers.unshift(function (viewValue) {
+				if(elm.val().length > 50) {
+					ctrl.$setValidity('minLengthTrue', true);
+					return viewValue;
+				} else {
+					ctrl.$setValidity('minLengthTrue', false);
+					return undefined;
+				}
+			});
+		}
+	};
+});
+
+
 app.factory('fileReader', ['$q', '$log', function($q, $log) {
 
    var onLoad = function(reader, deferred, scope) {
@@ -513,6 +580,7 @@ app.directive('kredytMenu', ['$location', function(location) {
 		template: '<ul>' + 
 		'<li><a href="app.html#/account/kredyt-zaloz">Załóż kredyt</a></li>' +
 		'<li><a href="app.html#/account/kredyt-lista">Lista kredytów</a></li>' +
+		'<li><a href="app.html#/account/kredyt-odsetki">Odsetki</a></li>' +
 		'</ul>',
 		link: function(scope, element, atr, ctrl) {
 			element.attr('id', 'menu');

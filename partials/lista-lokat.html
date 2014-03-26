@@ -3,12 +3,14 @@
 	<h1 data-bank-colorized-header>Lista lokat</h1>
 	<table class="transfer">	
 		<tbody>
+			<p class="margin-bottom-20">Masz {{user.balance}} PLN do dyspozycji na koncie.</p>
 			<tr ng-show="!user.lokaty || user.lokaty.length == 0">Nie masz dostępnych lokat.</tr>
 			<tr ng-repeat="l in user.lokaty track by $index">
 				<td>{{$index}}.</td>
 				<td>{{l.name.label}}</td>
-				<td contenteditable ng-model="isUpdated" index="$index">{{l.amount}}</td>
-				<td class="width80"><a class="green" href="" editable>Edytuj kwotę</a></td>
+				<td>{{l.amount}}</td>
+				<!-- <td contenteditable ng-model="isUpdated" index="$index">{{l.amount}}</td> -->
+				<!-- <td class="width80"><a class="green" href="" editable>Edytuj kwotę</a></td> -->
 				<td><a class="red" href="" ng-click="removeLokata($index)">Usuń</a></td>
 			</tr>
 		</tbody>

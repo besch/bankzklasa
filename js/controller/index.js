@@ -71,6 +71,7 @@ app.controller('index', ['$scope', 'userService', 'fileReader', function($scope,
 	$scope.selectedIndex = -1;
 
 	$scope.toggleSelect = function(index) {
+		$scope.wrongPass = false;
 		if(index === $scope.selectedIndex) {
 			$scope.selectedIndex = -1;
 		} else {

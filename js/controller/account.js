@@ -1,4 +1,4 @@
-app.controller('account', function($scope, $rootScope, userService, $location) {
+app.controller('account', function($scope, $rootScope, userService, $location, $interval) {
 	$scope.transfer = {
 		date: new Date().getTime(),
 		title: '',
@@ -29,6 +29,9 @@ app.controller('account', function($scope, $rootScope, userService, $location) {
 		description: '',
 		amount: ''
 	};
+
+
+	$scope.balanceError = false;
 
 	$scope.saveTransfer = function() {
 		var balance = parseInt($scope.user.balance) - $scope.transfer.amount;
@@ -129,34 +132,36 @@ app.controller('account', function($scope, $rootScope, userService, $location) {
 	$scope.createLokata = function() {
 
 		$scope.user.lokaty = $scope.user.lokaty || [];
-		$scope.lokata.amount = parseFloat($scope.lokata.amount.replace(' PLN', ''));
 
-		$scope.user.lokaty.push($scope.lokata);
-		var promise = userService.update($scope.user);
-		promise.then(function(user) {
-			$location.path('/account/lista-lokat');
-		});
+		if(parseFloat($scope.user.balance) >= parseFloat($scope.lokata.amount)) {
+			$scope.user.lokaty.push($scope.lokata);
+			$scope.user.balance = (parseFloat($scope.user.balance) - parseFloat($scope.lokata.amount)).toFixed(2);
+
+			var promise = userService.update($scope.user);
+			promise.then(function(user) {
+				$location.path('/account/lista-lokat');
+			});
+		}
 	};
 
-	$scope.saveLokata = function(index, newVal) {
-		$scope.user.lokaty[index].amount = newVal;
-		userService.update($scope.user);
-	};
+	// $scope.saveLokata = function(index, newVal) {
+	// 	$scope.user.lokaty[index].amount = newVal;
+	// 	userService.update($scope.user);
+	// };
 
 	$scope.removeLokata = function(index) {
 		angular.forEach($scope.user.lokaty, function (val, key) {
 			var deleteLokata = confirm('Czy na pewno chcesz usunąć lokatę?');
 
-			if(index == key) {
-				if(deleteLokata) {
+			if(deleteLokata) {
+				if(index == key) {
+					$scope.user.balance = (parseFloat($scope.user.balance) + parseFloat($scope.user.lokaty[key].amount)).toFixed(2);
 					$scope.user.lokaty.splice(key, 1);
 					userService.update($scope.user);
 				}
 			}
 		});
 	};
-
-
 
 
 
@@ -174,55 +179,35 @@ app.controller('account', function($scope, $rootScope, userService, $location) {
 
 		$scope.user.rachunki = $scope.user.rachunki || [];
 
-		// angular.forEach($scope.user.lokata.name, function(name) {
-			// if(name != $scope.lokata.name) {
-				$scope.balanceError = false;
-				var balanceWithCents = parseFloat($scope.user.balance);
-				var newRachunek = parseFloat($scope.rachunek.amount.replace(' PLN', ''));
-				// console.log(newRachunek);
-				// return;
+		// $scope.balanceError = false;
+		var balanceWithCents = parseFloat($scope.user.balance);
+		var newRachunek = parseFloat($scope.rachunek.amount);
 
-				if(balanceWithCents > newRachunek) {
-					$scope.user.balance = balanceWithCents - newRachunek;
-				} else {
-					$scope.balanceError = true;
-					return;
-				}
-
-				// if(parseInt($scope.user.balance) - )
-					$scope.user.rachunki.push($scope.rachunek);
-					var promise = userService.update($scope.user);
-					promise.then(function(user) {
-						$location.path('/account/rachunek-lista');
-						// $rootScope.$on('$routeChangeSuccess', function(event, next, current) {
-						// 	next.scope.lokataCreateSuccess = true;
-						// });
-					});
-				// $scope.lokata = null;
-		// 	}
-		// });
+		if(balanceWithCents >= newRachunek) {
+			$scope.user.balance = (balanceWithCents - newRachunek).toFixed(2);
+		} else {
+			$scope.balanceError = true;
+			return;
+		}
+		$scope.user.rachunki.push($scope.rachunek);
+		var promise = userService.update($scope.user);
+		promise.then(function(user) {
+			$location.path('/account/rachunek-lista');
+		});
 	};
-
-	// $scope.saveLokata = function(index, newVal) {
-	// 	$scope.user.rachunki[index].amount = newVal;
-	// 	var promise = userService.update($scope.user);
-	// 	promise.then(function(user) {
-	// 		// console.log('saved');
-	// 	});
-	// };
 
 	$scope.removeRachunek = function(index) {
 		angular.forEach($scope.user.rachunki, function (val, key) {
-			if(index == key) {
+			var deleteRachunek = confirm('Czy na pewno chcesz usunąć rachunek?');
 
-				var rachunekFloat = parseFloat($scope.user.rachunki[key].amount);
-
-				if(rachunekFloat && rachunekFloat > 0) {
-					$scope.user.rachunki.splice(key, 1);
-					userService.update($scope.user)
-						.then(function() {
-							$scope.user.balance += rachunekFloat;
-						});
+			if(deleteRachunek) {
+				if(index == key) {
+					var rachunekFloat = parseFloat($scope.user.rachunki[key].amount);
+					if(rachunekFloat && rachunekFloat > 0) {
+						$scope.user.rachunki.splice(key, 1);
+						$scope.user.balance = (parseFloat($scope.user.balance) + rachunekFloat).toFixed(2);
+						userService.update($scope.user);
+					}
 				}
 			}
 		});
@@ -233,16 +218,16 @@ app.controller('account', function($scope, $rootScope, userService, $location) {
 
 	$scope.kredyty = [
 		{ label: 'Wybierz jedną z opcji', value: 0 },
-		{ label: 'Kredyt na kwotę 100zł z oprocentowaniem 4%', value: 100},
-		{ label: 'Kredyt na kwotę 200zł z oprocentowaniem 4%', value: 200},
-		{ label: 'Kredyt na kwotę 300zł z oprocentowaniem 4%', value: 300},
-		{ label: 'Kredyt na kwotę 400zł z oprocentowaniem 4%', value: 400},
-		{ label: 'Kredyt na kwotę 500zł z oprocentowaniem 4%', value: 500},
-		{ label: 'Kredyt na kwotę 600zł z oprocentowaniem 4%', value: 600},
-		{ label: 'Kredyt na kwotę 700zł z oprocentowaniem 4%', value: 700},
-		{ label: 'Kredyt na kwotę 800zł z oprocentowaniem 4%', value: 800},
-		{ label: 'Kredyt na kwotę 900zł z oprocentowaniem 4%', value: 900},
-		{ label: 'Kredyt na kwotę 1000zł z oprocentowaniem 4%', value: 1000}
+		{ label: 'Kredyt na kwotę 100zł z oprocentowaniem 4% w ciągu 4 tygodni', value: 100, percentage: 4, numberOfWeeks: 4},
+		{ label: 'Kredyt na kwotę 200zł z oprocentowaniem 4% w ciągu 4 tygodni', value: 200, percentage: 4, numberOfWeeks: 4},
+		{ label: 'Kredyt na kwotę 300zł z oprocentowaniem 4% w ciągu 6 tygodni', value: 300, percentage: 4, numberOfWeeks: 6},
+		{ label: 'Kredyt na kwotę 400zł z oprocentowaniem 5% w ciągu 8 tygodni', value: 400, percentage: 5, numberOfWeeks: 8},
+		{ label: 'Kredyt na kwotę 500zł z oprocentowaniem 5% w ciągu 10 tygodni', value: 500, percentage: 5, numberOfWeeks: 10},
+		{ label: 'Kredyt na kwotę 600zł z oprocentowaniem 7% w ciągu 12 tygodni', value: 600, percentage: 7, numberOfWeeks: 12},
+		{ label: 'Kredyt na kwotę 700zł z oprocentowaniem 7% w ciągu 10 tygodni', value: 700, percentage: 7, numberOfWeeks: 10},
+		{ label: 'Kredyt na kwotę 800zł z oprocentowaniem 8% w ciągu 18 tygodni', value: 800, percentage: 8, numberOfWeeks: 18},
+		{ label: 'Kredyt na kwotę 900zł z oprocentowaniem 8% w ciągu 24 tygodni', value: 900, percentage: 8, numberOfWeeks: 24},
+		{ label: 'Kredyt na kwotę 1000zł z oprocentowaniem 10% w ciągu 12 tygodni', value: 1000, percentage: 10, numberOfWeeks: 12}
 	];
 	$scope.kredyt.name = $scope.kredyty[0];
 
@@ -266,140 +251,114 @@ app.controller('account', function($scope, $rootScope, userService, $location) {
 	$scope.amountToMuch = false;
 
 
-});
 
 
-app.directive('clickToEdit', ['userService', function(userService) {
-	return {
-		restrict: 'A',
-		require: '?ngModel',
-		replace: true,
-		template: 	'<div class="align-left">' +
-						'<div ng-hide="viewable.editorEnabled">' +
-							'<a ng-click="enableEditor()" class="green pointer">Spłać kredyt</a>' +
-						'</div>' +
-						'<div ng-show="viewable.editorEnabled">' +
-							'<input ng-model="viewable.editableValue" size="10">' +
-							'<a ng-click="save()" class="green pointer">Spłać</a>  ' +
-							'<a ng-click="disableEditor()" class="red pointer">Anuluj</a>' +
-						'</div>' +
-					'</div>',
-		scope: {
-			amountValue: '=clickToEdit',
-		},
-		controller: function($scope) {
-			$scope.viewable = {
-				editableValue: $scope.amountValue,
-				editorEnabled: false
-			};
 
-			$scope.enableEditor = function() {
-				$scope.viewable.editorEnabled = true;
-				$scope.viewable.editableValue = $scope.amountValue;
-			};
+	// Counter
 
-			$scope.disableEditor = function() {
-				$scope.viewable.editorEnabled = false;
-			};
-
-			$scope.save = function() {
+	$scope.odsetki = 0;
+	$scope.tygodnie = 0;
+	var stop;
 
 
-				console.log('$scope.$parent.amountToMuch ' + $scope.$parent.amountToMuch);
-				console.log('$scope.user.balance ' + $scope.$parent.user.balance);
-				console.log('viewable.editableValue ' + $scope.viewable.editableValue);
-				console.log('$scope.user.kredyty[$scope.index].value ' + $scope.$parent.user.kredyty[$scope.$parent.$index].name.value);
-				// console.log('$scope.amountValue ' + $scope.amountValue);
+	$scope.turnOnCounter = function() {
+		if(angular.isDefined(stop)) return;
+		console.log($scope);
+		stop = $interval(function() {
+			// console.log($scope.odsetki);
+			// return;
+			angular.forEach($scope.user.kredyty, function(kredyt, key) {
+				// console.log(key);
 				// return;
+				if($scope.user.kredyty[key].name.numberOfWeeks) {
+					console.log($scope.index);
 
-				if(parseFloat($scope.viewable.editableValue) > parseFloat($scope.$parent.user.balance)) {
-					return $scope.$parent.balanceLess = true;
-				} 
-				else {
-					if(parseFloat($scope.viewable.editableValue) > parseFloat($scope.$parent.user.kredyty[$scope.$parent.$index].name.value)) {
-						return $scope.$parent.amountToMuch = true;
-					}
-					else if(parseFloat($scope.viewable.editableValue) < parseFloat($scope.$parent.user.kredyty[$scope.$parent.$index].name.value)) {
-						$scope.amountValue = $scope.viewable.editableValue;
-						$scope.disableEditor();
+					if(key == $scope.index){
 
-						$scope.$parent.user.kredyty[$scope.$parent.$index].name.value = (parseFloat($scope.$parent.user.kredyty[$scope.$parent.$index].name.value) - parseFloat($scope.viewable.editableValue)).toFixed(2);
-						$scope.$parent.user.balance = (parseFloat($scope.$parent.user.balance) - parseFloat($scope.viewable.editableValue)).toFixed(2);
-						userService.update($scope.$parent.user);
 					}
-					else {
-						$scope.$parent.user.kredyty.splice($scope.index, 1);
-						$scope.$parent.user.balance = (parseFloat($scope.$parent.user.balance) - parseFloat($scope.viewable.editableValue)).toFixed(2);
-						userService.update($scope.$parent.user);
+
+					if($scope.tygodnie < 24) {
+						$scope.tygodnie += 1/$scope.user.kredyty.length;
+						$scope.odsetki += 1/$scope.user.kredyty.length * $scope.user.kredyty[key].name.numberOfWeeks * $scope.user.kredyty[key].name.value * $scope.user.kredyty[key].name.percentage / 100;
+					} else {
+						$scope.turnOffCounter();
 					}
 				}
-			};
-		},
-		link: function(scope, element, attr, ngModel) {
-			if(!ngModel) return;
-
-			scope.$watch('viewable.editableValue', function(newVal) {
-				if(newVal)
-					scope.viewable.editableValue = newVal;
 			});
+		}, 1000);
+	};
+
+	$scope.turnOffCounter = function() {
+		if(angular.isDefined(stop)) {
+			$interval.cancel(stop);
+			stop = undefined;
 		}
 	};
-}]);
 
+	$scope.resetCounter = function() {
+		$scope.odsetki = 0;
+	}
 
-app.directive('editable', function() {
-	return {
-		restrict: 'A',
-		scope: {
-			index: '@',
-		},
-		link: function(scope, el, atr, ctrl) {
-			el.on('click', function() {
-				if(el.html() == 'Edytuj kwotę') {
-					el.parent().prev().focus();
-					el.html('Zachowaj').attr('class', 'zachowaj-zmiany');
-				} else {
-					el.removeAttr('class', 'zachowaj-zmiany').attr('class', 'green');
-					el.html('Edytuj kwotę');
-				}
-			});
-		}
-	};
+	$scope.$on('$destroy', function() {
+		$scope.turnOffCounter();
+	});
 });
 
 
 
-app.directive('contenteditable', function() {
-    return {
-      restrict: 'A',
-      require: '?ngModel',
-      link: function(scope, element, attrs, ngModel) {
-        if(!ngModel) return;
+// app.directive('editable', function() {
+// 	return {
+// 		restrict: 'A',
+// 		scope: {
+// 			index: '@',
+// 		},
+// 		link: function(scope, el, atr, ctrl) {
+// 			el.on('click', function() {
+// 				if(el.html() == 'Edytuj kwotę') {
+// 					el.parent().prev().focus();
+// 					el.html('Zachowaj').attr('class', 'zachowaj-zmiany');
+// 				} else {
+// 					el.removeAttr('class', 'zachowaj-zmiany').attr('class', 'green');
+// 					el.html('Edytuj kwotę');
+// 				}
+// 			});
+// 		}
+// 	};
+// });
 
-        ngModel.$render = function() {
-          element.html(ngModel.$viewValue || '');
-        };
 
-        element.on('blur keyup change', function() {
-          scope.$apply(read);
-        });
-        read();
 
-        function read() {
-          var html = element.html();
-          if( attrs.stripBr && html == '<br>' ) {
-            html = '';
-          }
-          ngModel.$setViewValue(html);
-        }
+// app.directive('contenteditable', function() {
+//     return {
+//       restrict: 'A',
+//       require: '?ngModel',
+//       link: function(scope, element, attrs, ngModel) {
+//         if(!ngModel) return;
 
-        scope.$watch('isUpdated', function(newVal) {
-			if(newVal) {
-				element.next().on('click', function() {
-					scope.saveLokata(scope.$index, newVal);
-				});
-			}
-		});
-      }
-    };
-});
+//         ngModel.$render = function() {
+//           element.html(ngModel.$viewValue || '');
+//         };
+
+//         element.on('blur keyup change', function() {
+//           scope.$apply(read);
+//         });
+//         read();
+
+//         function read() {
+//           var html = element.html();
+//           if( attrs.stripBr && html == '<br>' ) {
+//             html = '';
+//           }
+//           ngModel.$setViewValue(html);
+//         }
+
+//         scope.$watch('isUpdated', function(newVal) {
+// 			if(newVal) {
+// 				element.next().on('click', function() {
+// 					scope.saveLokata(scope.$index, newVal);
+// 				});
+// 			}
+// 		});
+//       }
+//     };
+// });

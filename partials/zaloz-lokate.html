@@ -13,20 +13,21 @@
 	<form action="#" method="post" name="form" invalidate>
 		<table class="transfer">	
 			<tr>
+				<p class="margin-bottom-20">Masz {{user.balance}} PLN do dyspozycji na koncie.</p>
 				<td class="align-fields">
 					<label for="lokata-select">Wybierz rodzaj lokaty</label>
 					<select id="lokata-select" ng-model="lokata.name" ng-options="l.label for l in lokaty" name="lokaty"></select>
 				</td>
 				<td class="align-fields">
 					<p><label for="lokata-kwota">Wprowadź kwotę</label></p>
-					<p><input id="lokata-kwota" ng-model="lokata.amount" required ng-pattern="/^\d{0,3}\,?\d{0,3}\.{1}\d{2} (PLN)$/" money-mask required="required" /></p>
-					<p class="error" ng-show="submitted && form.amount.$error.required">Pole jest wymagane</p>
-					<p class="error" ng-show="submitted && form.amount.$error.pattern">Niepoprawny format</p>
+					<p><input name="amount" ng-model="lokata.amount" required float-field /></p>
+					<p class="error" ng-show="form.amount.$error.float">Przykładowa wartość pola to "999.99"</p>
+					<p class="error" ng-show="balanceError">Nie posiadasz wystarczającej kwoty na swoim koncie bankowym. Masz {{user.balance}} do zainwestowania</p>
 				</td>
 			</tr>
 		</table>
 		<div class="form-actions" style="margin-top:40px">
-			<input ng-disabled="lokata.name.value == 0" ng-click="submitted = true;form.$valid ? createLokata() : null" type="button" class="submit" value="Zapisz lokatę" />
+			<input ng-disabled="lokata.name.value == 0" ng-click="form.$valid ? createLokata() : null" type="button" class="submit" value="Zapisz lokatę" />
 		</div>
 	</form>
 </div>

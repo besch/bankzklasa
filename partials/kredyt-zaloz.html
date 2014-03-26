@@ -11,7 +11,8 @@
 <div id="content" ng-controller="account">
 	<h1 data-bank-colorized-header>Wyślij wniosek o kredyt</h1>
 	<form action="#" method="post" name="form" invalidate>
-		<table class="transfer">	
+		<table class="transfer">
+			<p class="margin-bottom-20">Twoje saldo to {{user.balance}} PLN.</p>
 			<tr>
 				<td class="align-fields">
 					<label for="kredyt-select">Wybierz kwotę kredytową</label>
@@ -19,7 +20,9 @@
 				</td>
 				<td class="align-fields">
 					<label for="kredyt-opis">Cel aplikacji kredytowej</label>
-					<textarea ng-model="kredyt.desciption" id="kredyt-opis" rows="5" cols="60"></textarea>
+					<textarea ng-model="kredyt.desciption" name="description" id="description" rows="5" cols="60" required="required" min-length></textarea>
+					<span class="error" ng-show="submitted && form.description.$error.required">Pole jest wymagane.</span>
+					<span class="error" ng-show="submitted && form.description.$error.minLengthTrue">Opis powinien mieć 50 lub więcej znaków.</span>
 				</td>
 			</tr>
 		</table>

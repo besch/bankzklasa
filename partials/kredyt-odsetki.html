@@ -1,0 +1,37 @@
+<nav data-kredyt-menu></nav>
+<div id="content" ng-controller="account">
+	<h1 data-bank-colorized-header>Odsetki kredytowe</h1>
+	<table class="transfer">	
+		<tbody>
+			<p class="margin-bottom-20">Twoje saldo to {{user.balance}} PLN.</p>
+			<p ng-show="!user.kredyty || user.kredyty.length == 0">Nie masz dostępnych kredytów.</p>
+			<tr ng-hide="!user.kredyty || user.kredyty.length == 0">
+			   	<th class="width4Percent align-left bold">Nr.</th>
+			   	<th class="width42Percent align-left bold">Nazwa</th>
+			   	<th class="width22Percent align-left bold">Odsetki</th>
+			   	<th class="width22Percent align-left bold">Tygodnie</th>
+<!-- 			   	<th class="width10Percent align-left bold">Kwota</th>
+			   	<th class="width5Percent align-left bold">%</th>
+			   	<th class="width9Percent align-left bold">Okres</th> -->
+			</tr>
+			<tr ng-repeat="k in user.kredyty track by $index" index='$index'>
+				<td class="width4Percent align-left">{{$index}}.</td>
+				<td class="width42Percent align-left">{{k.name.label}}</td>
+				<td odsetki-directive class="width22Percent align-left">{{odsetki}}</td>
+				<td odsetki-directive class="width22Percent align-left">{{tygodnie}}</td>
+<!-- 				<td class="width10Percent align-left" index="$index">{{k.name.value}}</td>
+				<td class="width5Percent align-left">{{k.name.percentage}}%</td>
+				<td class="width9Percent align-left">{{k.name.numberOfWeeks}} mies.</td> -->
+			</tr>
+			<tr>
+				<button ng-click="turnOnCounter()">Włącz licznik</button>
+				<button ng-click="turnOffCounter()">Zatrzymaj licznik</button>
+				<button ng-click="resetCounter()">Zresetuj</button>
+				<p>W tej semulacji 1 sekunda to tygodniowy okres przez który bank nalicza oprocentowanie kredytowe.</p>
+			</tr>
+		</tbody>
+	</table>
+	<div class="form-actions">
+		<a href="app.html#/account/kredyt-zaloz"><input type="button" class="submit" value="Powrót" /></a>	
+	</div>
+</div>

@@ -13,7 +13,7 @@
 			<tr ng-repeat="r in user.rachunki track by $index">
 				<td class="width4Percent align-left">{{$index}}.</td>
 				<td class="width50Percent align-left">{{r.name.label}}</td>
-				<td class="width20Percent align-left"index="$index">{{r.amount}}</td>
+				<td class="width20Percent align-left" index="$index">{{r.amount}}</td>
 				<!-- <td class="width80"><a class="green" href="" editable>Edytuj kwotę</a></td> -->
 				<td class="width20Percent align-left"><a class="red" href="" ng-click="removeRachunek($index)">Usuń</a></td>
 			</tr>

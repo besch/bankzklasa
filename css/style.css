@@ -220,8 +220,24 @@ table.transfer select {width:100%;background-color:#E4E4E4}
 	width: 4%;
 }
 
+.width5Percent {
+	width: 5%;
+}
+
+.width9Percent {
+	width: 9%;
+}
+
 .width50Percent {
 	width: 50%;
+}
+
+.width42Percent {
+	width: 42%;
+}
+
+.width22Percent {
+	width: 22%;
 }
 
 .width20Percent {
@@ -236,24 +252,10 @@ table.transfer select {width:100%;background-color:#E4E4E4}
 	width: 10%;
 }
 
-/*.buttonRed {
-	color:#fff;
-	background: red;
-	border: 1px solid red;
-	border-radius: 5px;
-	padding: 5px 7px;
-	cursor: pointer;
-	text-align: center;
-	font-weight: bold;
-}*/
+.font-12 {
+	font-size: 12px;
+}
 
-/*.buttonRed {
-	color:#fff;
-	background: green;
-	border: 1px solid green;
-	border-radius: 5px;
-	padding: 5px 7px;
-	cursor: pointer;
-	/*text-align: center;
-	/*font-weight: bold;
-}*/
+#kredyt-select {
+	width: 647px;
+}

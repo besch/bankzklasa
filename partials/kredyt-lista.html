@@ -3,23 +3,28 @@
 	<h1 data-bank-colorized-header>Lista pobranych kredytów</h1>
 	<table class="transfer">	
 		<tbody>
-			<span ng-show="balanceLess">Podana kwota jest większa od salda twojego konta.</span>
-			<span ng-show="amountToMuch">Podana kwota jest większa od kwoty do spłacenia.</span>
 			<p class="margin-bottom-20">Twoje saldo to {{user.balance}} PLN.</p>
 			<p ng-show="!user.kredyty || user.kredyty.length == 0">Nie masz dostępnych kredytów.</p>
 			<tr ng-hide="!user.kredyty || user.kredyty.length == 0">
 			   	<th class="width4Percent align-left bold">Nr.</th>
-			   	<th class="width50Percent align-left bold">Nazwa</th>
+			   	<th class="width42Percent align-left bold">Nazwa</th>
 			   	<th class="width10Percent align-left bold">Kwota</th>
+			   	<th class="width5Percent align-left bold">%</th>
+			   	<th class="width9Percent align-left bold">Okres</th>
 			</tr>
 			<tr ng-repeat="k in user.kredyty track by $index">
 				<td class="width4Percent align-left">{{$index}}.</td>
-				<td class="width50Percent align-left">{{k.name.label}}</td>
-				<td class="width10Percent align-left"index="$index">{{k.name.value}}</td>
-				<td class="width40Percent align-left">
+				<td class="width42Percent align-left">{{k.name.label}}</td>
+				<td class="width10Percent align-left" index="$index">{{k.name.value}}</td>
+				<td class="width5Percent align-left">{{k.name.percentage}}%</td>
+				<td class="width9Percent align-left">{{k.name.numberOfWeeks}} tyg.</td>
+				<td class="width22Percent align-left">
 					<div class="buttonRed" href="" click-to-edit="k.name.value"></div>
 				</td>
 				<!-- ng-click="payOffCredit($index)" -->
+			</tr>
+			<tr>
+
 			</tr>
 		</tbody>
 	</table>
